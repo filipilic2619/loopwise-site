@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recurring Issues for Jira | Loopwise Labs</title>
+<meta name="description" content="Create recurring Jira issues on a schedule, in each team's time zone.">
+<link rel="stylesheet" href="/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233b5bdb'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700'%3EL%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="/"><span>L</span>Loopwise Labs</a>
+  <nav><a href="/recurring-issues/">Recurring Issues</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<div class="pill">Jira Cloud app</div>
+<h1>Recurring Issues for Jira</h1>
+<p class="lead">Daily standups, weekly reports, monthly reviews. The issues appear on time, where your team works.</p>
+<ul class="features">
+  <li><strong>Plain schedules:</strong> every day, every weekday, chosen weekdays, every N weeks, or monthly (including the last day). No cron.</li>
+  <li><strong>Correct time zones:</strong> each rule keeps its local time across daylight saving changes.</li>
+  <li><strong>Sprint-aware:</strong> new issues go straight into the active sprint, on Scrum and team-managed boards.</li>
+  <li><strong>Tidy:</strong> optionally close the previous unfinished copy when a new one is created.</li>
+  <li><strong>Templates:</strong> <code>{{date}}</code>, <code>{{weekday}}</code>, <code>{{week}}</code>, <code>{{month}}</code>, <code>{{year}}</code> in titles and descriptions.</li>
+  <li><strong>Safe:</strong> one catch-up issue after downtime, never a flood. Runs on Atlassian, so no data leaves Atlassian.</li>
+</ul>
+<h2>Getting started</h2>
+<ol>
+  <li>Install the app from the Atlassian Marketplace.</li>
+  <li>In Jira, open <em>Apps → Recurring issues</em> and click <em>New recurring issue</em>.</li>
+  <li>Pick the project, issue type and schedule. The preview shows the next five runs. Save.</li>
+  <li>Use <em>Run now</em> to create one immediately and check the result.</li>
+</ol>
+<h2>FAQ</h2>
+<p><strong>Who is the reporter?</strong> The user who created the rule. If Jira doesn't allow setting the reporter, the issue is created without it instead of failing.</p>
+<p><strong>The issue wasn't added to the sprint.</strong> The project needs a started sprint on a Scrum or team-managed board. The rule shows a warning when no active sprint is found.</p>
+<p><strong>What happens if my subscription ends?</strong> Your rules are kept but no new issues are created until the license is active again.</p>
+<p>Questions? <a href="/support/">Contact support</a>.</p>
+
+</div></main>
+<footer><div class="wrap">
+  <p>© 2026 Loopwise Labs · <a href="mailto:support@loopwiselabs.app">support@loopwiselabs.app</a></p>
+  <p>Filip Ilić PR Agencija za računarsko programiranje Filip Code Kaona, registered in the Republic of Serbia, company ID (MB) 65422174, tax ID (PIB) 111454976, seat: Kaona, Serbia.</p>
+</div></footer>
+</body>
+</html>

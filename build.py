@@ -1,0 +1,143 @@
+"""Generates the static Loopwise Labs site. Edit the content below, run `python3 build.py`, commit."""
+from pathlib import Path
+
+DOMAIN = "loopwiselabs.app"
+EMAIL = f"support@{DOMAIN}"
+UPDATED = "9 November 2026"
+ENTITY = ("Filip Ilić PR Agencija za računarsko programiranje Filip Code Kaona, "
+          "registered in the Republic of Serbia, company ID (MB) 65422174, tax ID (PIB) 111454976, "
+          "seat: Kaona, Serbia")
+MARKETPLACE = "https://marketplace.atlassian.com/"  # replace with the app listing URL once approved
+
+ROOT = Path(__file__).parent
+
+
+def page(path, title, description, body):
+    html = f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content="{description}">
+<link rel="stylesheet" href="/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233b5bdb'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700'%3EL%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="/"><span>L</span>Loopwise Labs</a>
+  <nav><a href="/recurring-issues/">Recurring Issues</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+</div></header>
+<main><div class="wrap">
+{body}
+</div></main>
+<footer><div class="wrap">
+  <p>© 2026 Loopwise Labs · <a href="mailto:{EMAIL}">{EMAIL}</a></p>
+  <p>{ENTITY}.</p>
+</div></footer>
+</body>
+</html>
+"""
+    out = ROOT / path
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(html, encoding="utf-8")
+
+
+page("index.html", "Loopwise Labs", "Small, reliable apps for Atlassian Cloud.", f"""
+<h1>Small, reliable apps for Atlassian&nbsp;Cloud.</h1>
+<p class="lead">Loopwise Labs builds focused apps that take repetitive work off your team's plate, running entirely on Atlassian's own infrastructure.</p>
+<div class="card">
+  <div class="pill">Jira Cloud · Runs on Atlassian</div>
+  <h3>Recurring Issues for Jira</h3>
+  <p>Create Jira issues on a schedule, in your time zone and your sprint, with no cron.</p>
+  <a class="btn" href="/recurring-issues/">Learn more</a>
+</div>
+""")
+
+page("recurring-issues/index.html", "Recurring Issues for Jira | Loopwise Labs",
+     "Create recurring Jira issues on a schedule, in each team's time zone.", f"""
+<div class="pill">Jira Cloud app</div>
+<h1>Recurring Issues for Jira</h1>
+<p class="lead">Daily standups, weekly reports, monthly reviews. The issues appear on time, where your team works.</p>
+<ul class="features">
+  <li><strong>Plain schedules:</strong> every day, every weekday, chosen weekdays, every N weeks, or monthly (including the last day). No cron.</li>
+  <li><strong>Correct time zones:</strong> each rule keeps its local time across daylight saving changes.</li>
+  <li><strong>Sprint-aware:</strong> new issues go straight into the active sprint, on Scrum and team-managed boards.</li>
+  <li><strong>Tidy:</strong> optionally close the previous unfinished copy when a new one is created.</li>
+  <li><strong>Templates:</strong> <code>{{{{date}}}}</code>, <code>{{{{weekday}}}}</code>, <code>{{{{week}}}}</code>, <code>{{{{month}}}}</code>, <code>{{{{year}}}}</code> in titles and descriptions.</li>
+  <li><strong>Safe:</strong> one catch-up issue after downtime, never a flood. Runs on Atlassian, so no data leaves Atlassian.</li>
+</ul>
+<h2>Getting started</h2>
+<ol>
+  <li>Install the app from the Atlassian Marketplace.</li>
+  <li>In Jira, open <em>Apps → Recurring issues</em> and click <em>New recurring issue</em>.</li>
+  <li>Pick the project, issue type and schedule. The preview shows the next five runs. Save.</li>
+  <li>Use <em>Run now</em> to create one immediately and check the result.</li>
+</ol>
+<h2>FAQ</h2>
+<p><strong>Who is the reporter?</strong> The user who created the rule. If Jira doesn't allow setting the reporter, the issue is created without it instead of failing.</p>
+<p><strong>The issue wasn't added to the sprint.</strong> The project needs a started sprint on a Scrum or team-managed board. The rule shows a warning when no active sprint is found.</p>
+<p><strong>What happens if my subscription ends?</strong> Your rules are kept but no new issues are created until the license is active again.</p>
+<p>Questions? <a href="/support/">Contact support</a>.</p>
+""")
+
+page("support/index.html", "Support | Loopwise Labs", "Get help with Loopwise Labs apps.", f"""
+<h1>Support</h1>
+<p class="lead">Email us and a developer will answer, usually within 2 business days.</p>
+<div class="card">
+  <h3><a href="mailto:{EMAIL}">{EMAIL}</a></h3>
+  <p>To help us help you, please include your Atlassian site URL (e.g. <code>yourteam.atlassian.net</code>), the app name, what you expected, and what happened. A screenshot of the rule helps a lot.</p>
+</div>
+<p>Security issue? Write to the same address with "SECURITY" in the subject.</p>
+""")
+
+page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs apps handle data.", f"""
+<h1>Privacy Policy</h1>
+<p class="meta">Last updated: {UPDATED}</p>
+<p>This policy explains how {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), handles data in the Atlassian Marketplace app <strong>Recurring Issues for Jira</strong> (the "App").</p>
+<h2>1. Where the App runs</h2>
+<p>The App is built on Atlassian Forge and runs entirely on Atlassian's infrastructure. It does not send data to servers operated by us or by any third party.</p>
+<h2>2. What the App stores</h2>
+<p>Inside Atlassian Forge storage, for each recurring rule your users create:</p>
+<ul>
+  <li>summary and description templates;</li>
+  <li>project ID, issue type ID, labels and schedule (time, time zone, dates);</li>
+  <li>the Atlassian account ID of the user who created the rule and, if set, of the assignee;</li>
+  <li>run status: the last created issue key, timestamps and the last error message.</li>
+</ul>
+<p>The App does not store names, email addresses or any other personal data.</p>
+<h2>3. What we can access</h2>
+<p>We do not have access to your Jira content or the App's stored data. The exception is function logs that Atlassian provides to app developers. These contain technical information (rule IDs, issue keys, error messages) and are used only to diagnose problems.</p>
+<h2>4. Purpose and legal basis</h2>
+<p>The data is processed only to provide the App's functionality, creating issues on the schedule you configure (performance of a contract).</p>
+<h2>5. Retention and deletion</h2>
+<p>Rule data stays until a user deletes the rule or the App is uninstalled. After uninstall, Atlassian deletes the App's storage under its own retention rules. Once a week the App asks Atlassian which stored accounts have been closed and removes those account IDs from its data.</p>
+<h2>6. Sub-processors</h2>
+<p>Atlassian (hosting via Forge). See the <a href="https://www.atlassian.com/legal/privacy-policy">Atlassian Privacy Policy</a>.</p>
+<h2>7. Your rights</h2>
+<p>Depending on your location (for example under the GDPR), you may have rights of access, correction, deletion and objection. Because the App stores only account IDs inside your Atlassian site, most requests can be fulfilled by deleting the relevant rules. Otherwise, contact us.</p>
+<h2>8. Contact</h2>
+<p><a href="mailto:{EMAIL}">{EMAIL}</a></p>
+""")
+
+page("terms/index.html", "End User Terms | Loopwise Labs", "Terms for using Loopwise Labs apps.", f"""
+<h1>End User Terms</h1>
+<p class="meta">Last updated: {UPDATED}</p>
+<p>These terms are between {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), and the customer that installs <strong>Recurring Issues for Jira</strong> (the "App") through the Atlassian Marketplace ("you").</p>
+<ol>
+  <li><strong>License.</strong> While your subscription is active, we grant you a non-exclusive, non-transferable right to use the App on the Atlassian sites for which you purchased it.</li>
+  <li><strong>Purchases and billing.</strong> Purchases, trials, renewals and refunds are handled by Atlassian under the Atlassian Marketplace terms.</li>
+  <li><strong>Acceptable use.</strong> You may not reverse-engineer the App, resell it, or use it to break the law or Atlassian's terms.</li>
+  <li><strong>Your data.</strong> You keep all rights to your data. We process it only as described in our <a href="/privacy/">Privacy Policy</a>.</li>
+  <li><strong>Support.</strong> We provide support by email at <a href="mailto:{EMAIL}">{EMAIL}</a> on a reasonable-effort basis, normally within 2 business days.</li>
+  <li><strong>Changes.</strong> We may update the App. We will not materially reduce its core functionality during a paid subscription term without notice.</li>
+  <li><strong>Warranty disclaimer.</strong> The App is provided "as is". We do not guarantee that it is error-free or uninterrupted. It runs on Atlassian infrastructure, which we do not control.</li>
+  <li><strong>Limitation of liability.</strong> To the maximum extent permitted by law, our total liability is limited to the amount you paid for the App in the 12 months before the claim. We are not liable for indirect or consequential damages.</li>
+  <li><strong>Termination.</strong> These terms end when your subscription ends or you uninstall the App. Sections 4, 7, 8 and 10 survive.</li>
+  <li><strong>Governing law.</strong> These terms are governed by the laws of the Republic of Serbia, and the competent court in the Republic of Serbia has jurisdiction, unless mandatory consumer law says otherwise.</li>
+</ol>
+""")
+
+(ROOT / "CNAME").write_text(DOMAIN + "\n")
+(ROOT / "404.html").write_text((ROOT / "index.html").read_text(encoding="utf-8"), encoding="utf-8")
+print("built")
