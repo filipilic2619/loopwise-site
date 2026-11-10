@@ -3,7 +3,7 @@ from pathlib import Path
 
 DOMAIN = "loopwiselabs.app"
 EMAIL = f"support@{DOMAIN}"
-UPDATED = "9 November 2026"
+UPDATED = "10 November 2026"
 ENTITY = ("Filip Ilić PR Agencija za računarsko programiranje Filip Code Kaona, "
           "registered in the Republic of Serbia, company ID (MB) 65422174, tax ID (PIB) 111454976, "
           "seat: Kaona, Serbia")
@@ -26,7 +26,7 @@ def page(path, title, description, body):
 <body>
 <header><div class="wrap">
   <a class="logo" href="/"><span>L</span>Loopwise Labs</a>
-  <nav><a href="/recurring-issues/">Recurring Issues</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+  <nav><a href="/recurring-issues/">Recurring Issues</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/page-approval/">Page Approval</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
 </div></header>
 <main><div class="wrap">
 {body}
@@ -58,6 +58,42 @@ page("index.html", "Loopwise Labs", "Small, reliable apps for Atlassian Cloud.",
   <p>Ask and answer questions inside Confluence, with search that finds answers, not just titles.</p>
   <a class="btn" href="/qa-for-confluence/">Learn more</a>
 </div>
+<div class="card">
+  <div class="pill">Confluence Cloud · Runs on Atlassian</div>
+  <h3>Page Approval for Confluence</h3>
+  <p>Get pages approved by the right people, with approvals that expire when the page changes.</p>
+  <a class="btn" href="/page-approval/">Learn more</a>
+</div>
+""")
+
+page("page-approval/index.html", "Page Approval for Confluence | Loopwise Labs",
+     "Page approvals for Confluence: approvers, all/any rules, due dates, audit trail, and approvals that expire when the page changes.", f"""
+<div class="pill">Confluence Cloud app</div>
+<h1>Page Approval for Confluence</h1>
+<p class="lead">Know which version of a page was approved, by whom and when, and see at a glance when it changed afterwards.</p>
+<ul class="features">
+  <li><strong>Status next to the author:</strong> every page shows <em>Approval pending 1/2</em>, <em>Approved v5</em>, <em>Changes requested</em> or <em>Approval outdated</em> at the top.</li>
+  <li><strong>Approvals that expire:</strong> when an approved page gets a new version it is marked <em>outdated</em>. If the page changes during review, earlier decisions are reset so nobody approves text they haven't seen.</li>
+  <li><strong>Your rules:</strong> everyone must approve, or one approval is enough. Optional due dates with overdue markers.</li>
+  <li><strong>Notifications without setup:</strong> approvers are @mentioned in a page comment, so Confluence notifies them as usual.</li>
+  <li><strong>Audit trail:</strong> every request, decision and comment is kept with the page version it applied to.</li>
+  <li><strong>Approvals page per space:</strong> Waiting for me, Pending, Approved, Changes requested and Outdated.</li>
+  <li><strong>Space defaults:</strong> default approvers, default rule and approval managers who can cancel requests.</li>
+  <li><strong>Native filtering:</strong> status labels such as <code>approval-approved</code> work in Confluence search, CQL and page lists.</li>
+</ul>
+<h2>Getting started</h2>
+<ol>
+  <li>Install the app from the Atlassian Marketplace.</li>
+  <li>Open a page and click <em>Request approval</em> next to the page author.</li>
+  <li>Pick approvers and a rule, optionally a due date and a note, and send.</li>
+  <li>Optional: space admins can set default approvers and managers under <em>Space settings → Page Approval</em>.</li>
+  <li>Optional: add the <em>Approval status</em> macro to a page body.</li>
+</ol>
+<h2>FAQ</h2>
+<p><strong>Do approvers need edit permission?</strong> No. Anyone who can view the page and is named as approver can decide.</p>
+<p><strong>What counts as a change?</strong> A new published version of the page. Comments, labels and the app's own updates do not count.</p>
+<p><strong>What happens if my subscription ends?</strong> Statuses and history stay visible. New requests and decisions pause until the license is active again.</p>
+<p>Questions? <a href="/support/">Contact support</a>.</p>
 """)
 
 page("qa-for-confluence/index.html", "Q&A for Confluence | Loopwise Labs",
@@ -129,7 +165,7 @@ page("support/index.html", "Support | Loopwise Labs", "Get help with Loopwise La
 page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs apps handle data.", f"""
 <h1>Privacy Policy</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>This policy explains how {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), handles data in the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong> and <strong>Q&amp;A for Confluence</strong> (each an "App").</p>
+<p>This policy explains how {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), handles data in the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong> and <strong>Page Approval for Confluence</strong> (each an "App").</p>
 <h2>1. Where the App runs</h2>
 <p>The App is built on Atlassian Forge and runs entirely on Atlassian's infrastructure. It does not send data to servers operated by us or by any third party.</p>
 <h2>2. What the Apps store</h2>
@@ -145,17 +181,18 @@ page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs 
   <li>in page properties: the account IDs of users who voted and of the user who accepted an answer;</li>
   <li>in Atlassian Forge storage: per space, the account IDs of moderators and the FAQ order.</li>
 </ul>
-<p>The Apps do not store names, email addresses or any other personal data beyond Atlassian account IDs.</p>
+<p><strong>Page Approval for Confluence</strong> stores in page properties the approval status and history of each page: the account IDs of the requester and approvers, their decisions and comments, page versions, dates and an optional note. In Atlassian Forge storage it keeps per space the account IDs of default approvers and approval managers. It also adds status labels and posts comments that @mention approvers and requesters.</p>
+<p>The Apps do not store names or email addresses. Apart from Atlassian account IDs, the only personal data is free text your users choose to enter (such as approval notes and comments).</p>
 <h2>3. What we can access</h2>
 <p>We do not have access to your Jira or Confluence content or the Apps' stored data. The exception is function logs that Atlassian provides to app developers. These contain technical information (IDs, issue keys, error messages) and are used only to diagnose problems.</p>
 <h2>4. Purpose and legal basis</h2>
-<p>The data is processed only to provide the Apps' functionality, such as creating issues on the schedule you configure or running questions and answers in your spaces (performance of a contract).</p>
+<p>The data is processed only to provide the Apps' functionality, such as creating issues on the schedule you configure running questions and answers or approvals in your spaces (performance of a contract).</p>
 <h2>5. Retention and deletion</h2>
-<p>App data stays until it is deleted by your users or the App is uninstalled. After uninstall, Atlassian deletes the App's Forge storage under its own retention rules. Questions and answers created by Q&amp;A for Confluence are your Confluence content and remain in your spaces until you delete them. Once a week each App asks Atlassian which stored accounts have been closed and removes those account IDs from its data.</p>
+<p>App data stays until it is deleted by your users or the App is uninstalled. After uninstall, Atlassian deletes the App's Forge storage under its own retention rules. Questions, answers and approval comments created by the Apps are your Confluence content and remain in your spaces until you delete them. Once a week each App asks Atlassian which stored accounts have been closed and removes those account IDs from its data.</p>
 <h2>6. Sub-processors</h2>
 <p>Atlassian (hosting via Forge). See the <a href="https://www.atlassian.com/legal/privacy-policy">Atlassian Privacy Policy</a>.</p>
 <h2>7. Your rights</h2>
-<p>Depending on your location (for example under the GDPR), you may have rights of access, correction, deletion and objection. Because the Apps store only account IDs inside your Atlassian site, most requests can be fulfilled by deleting the relevant rules or content. Otherwise, contact us.</p>
+<p>Depending on your location (for example under the GDPR), you may have rights of access, correction, deletion and objection. Because the Apps store data only inside your Atlassian site, most requests can be fulfilled by deleting the relevant rules or content. Otherwise, contact us.</p>
 <h2>8. Data Processing Agreement</h2>
 <p>For customers subject to the GDPR, our <a href="/dpa/">Data Processing Agreement</a> applies automatically to the processing described above.</p>
 <h2>9. Contact</h2>
@@ -166,18 +203,18 @@ page("dpa/index.html", "Data Processing Agreement | Loopwise Labs",
      "Data Processing Agreement for Loopwise Labs apps (GDPR Art. 28).", f"""
 <h1>Data Processing Agreement</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>This Data Processing Agreement ("DPA") forms part of the <a href="/terms/">End User Terms</a> between the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong> and <strong>Q&amp;A for Confluence</strong> (each an "App") ("Customer", acting as controller) and {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", acting as processor). It applies automatically when the Customer installs the App and Loopwise Labs processes Customer Personal Data on the Customer's behalf. No signature is required.</p>
+<p>This Data Processing Agreement ("DPA") forms part of the <a href="/terms/">End User Terms</a> between the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong> and <strong>Page Approval for Confluence</strong> (each an "App") ("Customer", acting as controller) and {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", acting as processor). It applies automatically when the Customer installs the App and Loopwise Labs processes Customer Personal Data on the Customer's behalf. No signature is required.</p>
 
 <h2>1. Definitions</h2>
 <p>"GDPR" means Regulation (EU) 2016/679, and, where applicable, the UK GDPR and the Serbian Law on Personal Data Protection. "Customer Personal Data" means personal data processed by the App on behalf of the Customer. Terms such as "controller", "processor", "data subject", "personal data breach" and "processing" have the meanings given in the GDPR.</p>
 
 <h2>2. Details of processing</h2>
 <ul>
-  <li><strong>Subject matter and purpose:</strong> Recurring Issues for Jira: creating Jira issues on schedules configured by the Customer's users. Q&amp;A for Confluence: creating and organising questions and answers as Confluence content.</li>
+  <li><strong>Subject matter and purpose:</strong> Recurring Issues for Jira: creating Jira issues on schedules configured by the Customer's users. Q&amp;A for Confluence: creating and organising questions and answers as Confluence content. Page Approval for Confluence: recording approval requests and decisions on Confluence pages and notifying the people involved.</li>
   <li><strong>Duration:</strong> while the App is installed, plus the deletion period in section 9.</li>
   <li><strong>Nature of processing:</strong> storage of configuration and metadata, and use of it to create, assign and transition Jira issues or to create Confluence pages, comments, labels and page properties.</li>
-  <li><strong>Categories of data subjects:</strong> the Customer's Atlassian users who create rules, are set as assignees, vote, accept answers or are named moderators.</li>
-  <li><strong>Types of personal data:</strong> Atlassian account IDs only. No names, email addresses or special categories of data are stored.</li>
+  <li><strong>Categories of data subjects:</strong> the Customer's Atlassian users who create rules, are set as assignees, vote, accept answers, are named moderators, request or decide approvals, or are named default approvers or approval managers.</li>
+  <li><strong>Types of personal data:</strong> Atlassian account IDs, plus, for Page Approval for Confluence, the free-text notes and decision comments users enter. No names, email addresses or special categories of data are stored.</li>
 </ul>
 
 <h2>3. Processing on instructions</h2>
@@ -196,10 +233,10 @@ page("dpa/index.html", "Data Processing Agreement | Loopwise Labs",
 <p>Customer Personal Data is stored by Atlassian under Atlassian's own data transfer mechanisms (including the EU Standard Contractual Clauses where applicable). Where Loopwise Labs itself accesses Customer Personal Data from the Republic of Serbia, the parties agree that the EU Standard Contractual Clauses (Module 2, controller to processor) are incorporated by reference.</p>
 
 <h2>8. Assistance and data subject requests</h2>
-<p>Loopwise Labs will assist the Customer, taking into account the nature of processing, with data subject requests, security, breach notification, data protection impact assessments and prior consultation. Because the App stores only account IDs inside the Customer's site, most requests can be fulfilled by the Customer deleting the relevant rules or content. Each week each App also removes account IDs of accounts that Atlassian reports as closed.</p>
+<p>Loopwise Labs will assist the Customer, taking into account the nature of processing, with data subject requests, security, breach notification, data protection impact assessments and prior consultation. Because the Apps store data only inside the Customer's site, most requests can be fulfilled by the Customer deleting the relevant rules or content. Each week each App also removes account IDs of accounts that Atlassian reports as closed.</p>
 
 <h2>9. Deletion</h2>
-<p>When an App is uninstalled, its Forge storage is deleted by Atlassian under Atlassian's retention rules. Confluence content created through Q&amp;A for Confluence is the Customer's content and stays under the Customer's control. On request, Loopwise Labs will confirm deletion of any Customer Personal Data under its control.</p>
+<p>When an App is uninstalled, its Forge storage is deleted by Atlassian under Atlassian's retention rules. Confluence content created through the Apps is the Customer's content and stays under the Customer's control. On request, Loopwise Labs will confirm deletion of any Customer Personal Data under its control.</p>
 
 <h2>10. Personal data breaches</h2>
 <p>Loopwise Labs will notify the Customer without undue delay, and in any case within 72 hours, after becoming aware of a personal data breach affecting Customer Personal Data, with the information reasonably available to it.</p>
@@ -217,7 +254,7 @@ page("dpa/index.html", "Data Processing Agreement | Loopwise Labs",
 page("terms/index.html", "End User Terms | Loopwise Labs", "Terms for using Loopwise Labs apps.", f"""
 <h1>End User Terms</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>These terms are between {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), and the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong> and <strong>Q&amp;A for Confluence</strong> (each an "App") through the Atlassian Marketplace ("you").</p>
+<p>These terms are between {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), and the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong> and <strong>Page Approval for Confluence</strong> (each an "App") through the Atlassian Marketplace ("you").</p>
 <ol>
   <li><strong>License.</strong> While your subscription is active, we grant you a non-exclusive, non-transferable right to use the App on the Atlassian sites for which you purchased it.</li>
   <li><strong>Purchases and billing.</strong> Purchases, trials, renewals and refunds are handled by Atlassian under the Atlassian Marketplace terms.</li>
