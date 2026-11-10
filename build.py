@@ -26,7 +26,7 @@ def page(path, title, description, body):
 <body>
 <header><div class="wrap">
   <a class="logo" href="/"><span>L</span>Loopwise Labs</a>
-  <nav><a href="/recurring-issues/">Recurring Issues</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/page-approval/">Page Approval</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+  <nav><a href="/recurring-issues/">Recurring Issues</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/page-approval/">Page Approval</a><a href="/epic-progress/">Epic Progress</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
 </div></header>
 <main><div class="wrap">
 {body}
@@ -64,6 +64,38 @@ page("index.html", "Loopwise Labs", "Small, reliable apps for Atlassian Cloud.",
   <p>Get pages approved by the right people, with approvals that expire when the page changes.</p>
   <a class="btn" href="/page-approval/">Learn more</a>
 </div>
+<div class="card">
+  <div class="pill">Jira Cloud · Runs on Atlassian</div>
+  <h3>Epic Progress for Jira</h3>
+  <p>See how far every epic really is: issues, story points and time, rolled up with sub-tasks.</p>
+  <a class="btn" href="/epic-progress/">Learn more</a>
+</div>
+""")
+
+page("epic-progress/index.html", "Epic Progress for Jira | Loopwise Labs",
+     "Epic progress for Jira: done, in progress and to do, story points and time tracking rolled up from child issues and sub-tasks.", f"""
+<div class="pill">Jira Cloud app</div>
+<h1>Epic Progress for Jira</h1>
+<p class="lead">How far along is this epic, really? Issues, story points and time in one place, without building a dashboard.</p>
+<ul class="features">
+  <li><strong>On every epic:</strong> a Progress panel with done, in progress and to do, story points done, and time logged, remaining and estimated.</li>
+  <li><strong>Sub-tasks included:</strong> time tracking uses Jira's aggregate fields, so work logged on sub-tasks counts.</li>
+  <li><strong>What needs attention:</strong> overdue, unassigned and unestimated issues are flagged.</li>
+  <li><strong>All epics of a project on one page:</strong> progress bars, points, time left and warnings, sorted by least progress or most work left.</li>
+  <li><strong>Works for stories too:</strong> any issue with sub-tasks gets the same roll-up.</li>
+  <li><strong>Stores nothing:</strong> the app only reads Jira, as the person viewing it, so everyone sees only what they already may see.</li>
+</ul>
+<h2>Getting started</h2>
+<ol>
+  <li>Install the app from the Atlassian Marketplace.</li>
+  <li>Open an epic and expand <em>Progress</em> on the right.</li>
+  <li>For a project overview, open the <em>Epic progress</em> tab in the project.</li>
+</ol>
+<h2>FAQ</h2>
+<p><strong>Which story points field is used?</strong> The app finds "Story Points" and "Story point estimate" automatically, in company-managed and team-managed projects.</p>
+<p><strong>How is time shown?</strong> In Jira's format with 8-hour days and 5-day weeks.</p>
+<p><strong>What happens if my subscription ends?</strong> The panel and page show a notice until the license is active again. Nothing is stored, so there is nothing to clean up.</p>
+<p>Questions? <a href="/support/">Contact support</a>.</p>
 """)
 
 page("page-approval/index.html", "Page Approval for Confluence | Loopwise Labs",
@@ -165,7 +197,7 @@ page("support/index.html", "Support | Loopwise Labs", "Get help with Loopwise La
 page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs apps handle data.", f"""
 <h1>Privacy Policy</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>This policy explains how {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), handles data in the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong> and <strong>Page Approval for Confluence</strong> (each an "App").</p>
+<p>This policy explains how {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), handles data in the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong> and <strong>Epic Progress for Jira</strong> (each an "App").</p>
 <h2>1. Where the App runs</h2>
 <p>The App is built on Atlassian Forge and runs entirely on Atlassian's infrastructure. It does not send data to servers operated by us or by any third party.</p>
 <h2>2. What the Apps store</h2>
@@ -182,6 +214,7 @@ page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs 
   <li>in Atlassian Forge storage: per space, the account IDs of moderators and the FAQ order.</li>
 </ul>
 <p><strong>Page Approval for Confluence</strong> stores in page properties the approval status and history of each page: the account IDs of the requester and approvers, their decisions and comments, page versions, dates and an optional note. In Atlassian Forge storage it keeps per space the account IDs of default approvers and approval managers. It also adds status labels and posts comments that @mention approvers and requesters.</p>
+<p><strong>Epic Progress for Jira</strong> stores no data. It reads issues as the viewing user to show progress and keeps nothing afterwards.</p>
 <p>The Apps do not store names or email addresses. Apart from Atlassian account IDs, the only personal data is free text your users choose to enter (such as approval notes and comments).</p>
 <h2>3. What we can access</h2>
 <p>We do not have access to your Jira or Confluence content or the Apps' stored data. The exception is function logs that Atlassian provides to app developers. These contain technical information (IDs, issue keys, error messages) and are used only to diagnose problems.</p>
@@ -203,7 +236,7 @@ page("dpa/index.html", "Data Processing Agreement | Loopwise Labs",
      "Data Processing Agreement for Loopwise Labs apps (GDPR Art. 28).", f"""
 <h1>Data Processing Agreement</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>This Data Processing Agreement ("DPA") forms part of the <a href="/terms/">End User Terms</a> between the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong> and <strong>Page Approval for Confluence</strong> (each an "App") ("Customer", acting as controller) and {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", acting as processor). It applies automatically when the Customer installs the App and Loopwise Labs processes Customer Personal Data on the Customer's behalf. No signature is required.</p>
+<p>This Data Processing Agreement ("DPA") forms part of the <a href="/terms/">End User Terms</a> between the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong> and <strong>Epic Progress for Jira</strong> (each an "App") ("Customer", acting as controller) and {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", acting as processor). It applies automatically when the Customer installs the App and Loopwise Labs processes Customer Personal Data on the Customer's behalf. No signature is required.</p>
 
 <h2>1. Definitions</h2>
 <p>"GDPR" means Regulation (EU) 2016/679, and, where applicable, the UK GDPR and the Serbian Law on Personal Data Protection. "Customer Personal Data" means personal data processed by the App on behalf of the Customer. Terms such as "controller", "processor", "data subject", "personal data breach" and "processing" have the meanings given in the GDPR.</p>
@@ -254,7 +287,7 @@ page("dpa/index.html", "Data Processing Agreement | Loopwise Labs",
 page("terms/index.html", "End User Terms | Loopwise Labs", "Terms for using Loopwise Labs apps.", f"""
 <h1>End User Terms</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>These terms are between {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), and the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong> and <strong>Page Approval for Confluence</strong> (each an "App") through the Atlassian Marketplace ("you").</p>
+<p>These terms are between {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), and the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong> and <strong>Epic Progress for Jira</strong> (each an "App") through the Atlassian Marketplace ("you").</p>
 <ol>
   <li><strong>License.</strong> While your subscription is active, we grant you a non-exclusive, non-transferable right to use the App on the Atlassian sites for which you purchased it.</li>
   <li><strong>Purchases and billing.</strong> Purchases, trials, renewals and refunds are handled by Atlassian under the Atlassian Marketplace terms.</li>
