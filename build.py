@@ -1,18 +1,80 @@
 """Generates the static Loopwise Labs site. Edit the content below, run `python3 build.py`, commit."""
+import re
+from html import escape
 from pathlib import Path
 
 DOMAIN = "loopwiselabs.app"
+SITE = f"https://{DOMAIN}"
 EMAIL = f"support@{DOMAIN}"
-UPDATED = "10 November 2026"
+UPDATED = "11 November 2026"
 ENTITY = ("Filip Ilić PR Agencija za računarsko programiranje Filip Code Kaona, "
           "registered in the Republic of Serbia, company ID (MB) 65422174, tax ID (PIB) 111454976, "
           "seat: Kaona, Serbia")
-MARKETPLACE = "https://marketplace.atlassian.com/"  # replace with the app listing URL once approved
+MARKETPLACE = "https://marketplace.atlassian.com/search?query=Loopwise"  # per-app listing URLs once approved
 
 ROOT = Path(__file__).parent
 
+# slug, name, product, one-liner, screenshot captions, Marketplace URL (None until approved)
+APPS = [
+    ("recurring-issues", "Recurring Issues", "Jira", "Create Jira issues on a schedule, in your time zone and your sprint, with no cron.",
+     ["All recurring rules at a glance", "Plain schedules with a preview of the next runs", "New issues land in the active sprint"], None),
+    ("epic-progress", "Epic Progress", "Jira", "See how far every epic really is: issues, story points and time, rolled up with sub-tasks.",
+     ["Progress on every epic", "All epics of a project on one page", "Points and time, not just issue counts"], None),
+    ("issue-templates", "Issue Templates", "Jira", "Create issues with all their sub-tasks from a template, with variables filled in.",
+     ["One click, every sub-task", "Templates with variables", "Add sub-tasks to any issue"], None),
+    ("sprint-capacity", "Sprint Capacity", "Jira", "See who is over or under capacity in a sprint, in hours or story points, with days off included.",
+     ["Capacity vs. load for every person", "Hours or story points", "Spot overload before the sprint starts"], None),
+    ("burndown", "Sprint Burndown & Burnup", "Jira", "Sprint burndown or burnup on your dashboard, by story points, issues or hours.",
+     ["Burndown on your dashboard", "Points, issues or hours", "Burnup for scope and progress"], None),
+    ("cascading-select", "Cascading Select", "Jira", "A select field with up to six dependent levels, set up from a simple indented list.",
+     ["Up to six dependent levels", "Options from an indented list", "Clean values everywhere"], None),
+    ("qa-for-confluence", "Q&A", "Confluence", "Ask and answer questions inside Confluence, with search that finds answers, not just titles.",
+     ["Search that finds answers", "Accepted answers and voting", "FAQ, tags and an Unanswered queue"], None),
+    ("page-approval", "Page Approval", "Confluence", "Get pages approved by the right people, with approvals that expire when the page changes.",
+     ["Approval status next to the author", "Approvals that expire when the page changes", "Every approval in a space, in one place"], None),
+]
+APP_BY_SLUG = {a[0]: a for a in APPS}
+
+ICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E"
+        "%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E"
+        "%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")
+
+
+def app_hero(slug, body):
+    """App pages: logo, title, lead, buttons and a screenshot gallery above the page text."""
+    _, name, product, short, captions, url = APP_BY_SLUG[slug]
+    h1 = re.search(r"<h1>(.*?)</h1>", body, re.S).group(1)
+    lead = re.search(r'<p class="lead">(.*?)</p>', body, re.S).group(1)
+    rest = re.sub(r'^\s*<div class="pill">.*?</div>\s*<h1>.*?</h1>\s*<p class="lead">.*?</p>', "", body, count=1, flags=re.S)
+    cta = (f'<a class="btn" href="{url}">Get it on the Atlassian Marketplace</a>' if url
+           else f'<a class="btn" href="{MARKETPLACE}">Find it on the Atlassian Marketplace</a>')
+    shots = "".join(
+        f'<figure><a href="/assets/apps/{slug}/shot-{i}.jpg"><img src="/assets/apps/{slug}/shot-{i}.jpg" alt="{escape(c)}" loading="lazy"></a>'
+        f'<figcaption>{escape(c)}</figcaption></figure>'
+        for i, c in enumerate(captions, 1))
+    return f"""
+<section class="app-hero">
+  <img class="app-logo" src="/assets/apps/{slug}/logo.png" alt="" width="72" height="72">
+  <div>
+    <div class="pill">{product} Cloud app · Runs on Atlassian</div>
+    <h1>{h1}</h1>
+    <p class="lead">{lead}</p>
+    <div class="actions">{cta}<a class="btn ghost" href="/support/">Questions? Contact support</a></div>
+  </div>
+</section>
+<div class="gallery">{shots}</div>
+<div class="prose">{rest}</div>
+"""
+
 
 def page(path, title, description, body):
+    slug = path.split("/")[0]
+    wide = path == "index.html"
+    if slug in APP_BY_SLUG:
+        body = app_hero(slug, body)
+        wide = True
+    canonical = SITE + "/" + ("" if path in ("index.html", "404.html") else path.replace("index.html", ""))
+    og_image = f"{SITE}/assets/apps/{slug}/shot-1.jpg" if slug in APP_BY_SLUG else f"{SITE}/assets/og.png"
     html = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -20,20 +82,31 @@ def page(path, title, description, body):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{description}">
+<link rel="canonical" href="{canonical}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{description}">
+<meta property="og:url" content="{canonical}">
+<meta property="og:image" content="{og_image}">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="/style.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233b5bdb'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700'%3EL%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="{ICON}">
 </head>
 <body>
-<header><div class="wrap">
-  <a class="logo" href="/"><span>L</span>Loopwise Labs</a>
-  <nav><a href="/recurring-issues/">Recurring Issues</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/page-approval/">Page Approval</a><a href="/epic-progress/">Epic Progress</a><a href="/issue-templates/">Issue Templates</a><a href="/sprint-capacity/">Sprint Capacity</a><a href="/burndown/">Burndown</a><a href="/cascading-select/">Cascading Select</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+<header><div class="wrap{' wide' if wide else ''}">
+  <a class="logo" href="/"><img src="{ICON}" alt="" width="28" height="28">Loopwise Labs</a>
+  <nav><a href="/#apps">Apps</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
 </div></header>
-<main><div class="wrap">
+<main><div class="wrap{' wide' if wide else ''}">
 {body}
 </div></main>
-<footer><div class="wrap">
-  <p>© 2026 Loopwise Labs · <a href="mailto:{EMAIL}">{EMAIL}</a> · <a href="/dpa/">Data Processing Agreement</a></p>
-  <p>{ENTITY}.</p>
+<footer><div class="wrap{' wide' if wide else ''}">
+  <div class="foot-grid">
+    <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
+    <div><strong>Apps</strong>{''.join(f'<a href="/{a[0]}/">{escape(a[1])}</a>' for a in APPS)}</div>
+    <div><strong>Company</strong><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:{EMAIL}">{EMAIL}</a></div>
+  </div>
+  <p class="legal">© 2026 Loopwise Labs · {ENTITY}.</p>
 </div></footer>
 </body>
 </html>
@@ -43,57 +116,44 @@ def page(path, title, description, body):
     out.write_text(html, encoding="utf-8")
 
 
-page("index.html", "Loopwise Labs", "Small, reliable apps for Atlassian Cloud.", f"""
-<h1>Small, reliable apps for Atlassian&nbsp;Cloud.</h1>
-<p class="lead">Loopwise Labs builds focused apps that take repetitive work off your team's plate, running entirely on Atlassian's own infrastructure.</p>
-<div class="card">
-  <div class="pill">Jira Cloud · Runs on Atlassian</div>
-  <h3>Recurring Issues for Jira</h3>
-  <p>Create Jira issues on a schedule, in your time zone and your sprint, with no cron.</p>
-  <a class="btn" href="/recurring-issues/">Learn more</a>
-</div>
-<div class="card">
-  <div class="pill">Confluence Cloud · Runs on Atlassian</div>
-  <h3>Q&amp;A for Confluence</h3>
-  <p>Ask and answer questions inside Confluence, with search that finds answers, not just titles.</p>
-  <a class="btn" href="/qa-for-confluence/">Learn more</a>
-</div>
-<div class="card">
-  <div class="pill">Confluence Cloud · Runs on Atlassian</div>
-  <h3>Page Approval for Confluence</h3>
-  <p>Get pages approved by the right people, with approvals that expire when the page changes.</p>
-  <a class="btn" href="/page-approval/">Learn more</a>
-</div>
-<div class="card">
-  <div class="pill">Jira Cloud · Runs on Atlassian</div>
-  <h3>Epic Progress for Jira</h3>
-  <p>See how far every epic really is: issues, story points and time, rolled up with sub-tasks.</p>
-  <a class="btn" href="/epic-progress/">Learn more</a>
-</div>
-<div class="card">
-  <div class="pill">Jira Cloud · Runs on Atlassian</div>
-  <h3>Issue Templates for Jira</h3>
-  <p>Create issues with all their sub-tasks from a template, with variables like {{{{customer}}}} filled in.</p>
-  <a class="btn" href="/issue-templates/">Learn more</a>
-</div>
-<div class="card">
-  <div class="pill">Jira Cloud · Runs on Atlassian</div>
-  <h3>Sprint Capacity for Jira</h3>
-  <p>See who is over or under capacity in a sprint, in hours or story points, with days off included.</p>
-  <a class="btn" href="/sprint-capacity/">Learn more</a>
-</div>
-<div class="card">
-  <div class="pill">Jira Cloud · Runs on Atlassian</div>
-  <h3>Sprint Burndown &amp; Burnup for Jira</h3>
-  <p>A dashboard gadget with a sprint burndown or burnup by story points, issues or hours, and an on-track signal.</p>
-  <a class="btn" href="/burndown/">Learn more</a>
-</div>
-<div class="card">
-  <div class="pill">Jira Cloud · Runs on Atlassian</div>
-  <h3>Cascading Select for Jira</h3>
-  <p>A select field with up to six dependent levels, such as Region › Country › City, set up from a simple indented list.</p>
-  <a class="btn" href="/cascading-select/">Learn more</a>
-</div>
+def app_cards(product):
+    return "".join(f"""
+  <a class="app-card" href="/{slug}/">
+    <img src="/assets/apps/{slug}/logo.png" alt="" width="56" height="56" loading="lazy">
+    <div><h3>{escape(name)}</h3><p>{escape(short)}</p><span class="more">Learn more →</span></div>
+  </a>""" for slug, name, prod, short, *_ in APPS if prod == product)
+
+
+page("index.html", "Loopwise Labs | Apps for Jira and Confluence Cloud",
+     "Small, reliable Atlassian Marketplace apps for Jira and Confluence Cloud: recurring issues, epic progress, issue templates, sprint capacity, Q&A, page approvals and more.", f"""
+<section class="hero">
+  <div class="pill">Built on Atlassian Forge · Runs on Atlassian</div>
+  <h1>Small, reliable apps for Jira and Confluence.</h1>
+  <p class="lead">Loopwise Labs builds focused apps that take repetitive work off your team's plate. Each one does one job well, runs entirely on Atlassian's infrastructure and is free for up to 10 users.</p>
+  <div class="actions"><a class="btn" href="#apps">See the apps</a><a class="btn ghost" href="/support/">Talk to us</a></div>
+</section>
+
+<section class="trust">
+  <div><strong>Runs on Atlassian</strong><span>Your data stays in your Atlassian site. No outside servers.</span></div>
+  <div><strong>Free for small teams</strong><span>Every app is free for up to 10 users.</span></div>
+  <div><strong>GDPR ready</strong><span>Data processing agreement included, closed accounts removed automatically.</span></div>
+  <div><strong>Real support</strong><span>A developer answers, usually within 2 business days.</span></div>
+</section>
+
+<section id="apps">
+  <h2>Jira apps</h2>
+  <div class="app-grid">{app_cards("Jira")}
+  </div>
+  <h2>Confluence apps</h2>
+  <div class="app-grid">{app_cards("Confluence")}
+  </div>
+</section>
+
+<section class="cta-band">
+  <h2>Missing something?</h2>
+  <p>Tell us what slows your team down in Jira or Confluence. Small, focused apps are what we build.</p>
+  <a class="btn" href="mailto:{EMAIL}">Email {EMAIL}</a>
+</section>
 """)
 
 page("cascading-select/index.html", "Cascading Select for Jira | Loopwise Labs",
