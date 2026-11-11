@@ -12,6 +12,8 @@ ENTITY = ("Filip Ilić PR Agencija za računarsko programiranje Filip Code Kaona
 SHORT_ENTITY = "Filip Code, Serbia · MB 65422174 · PIB 111454976"
 KIT_URL = "https://filipster56.gumroad.com/l/vdkez"
 KIT_PRICE = "$79"
+CF_BEACON = None    # Cloudflare Web Analytics token (public; cookieless)
+GSC_VERIFY = None   # Google Search Console HTML-tag verification code (public)
 MARKETPLACE = "https://marketplace.atlassian.com/search?query=Loopwise"  # per-app listing URLs once approved
 
 ROOT = Path(__file__).parent
@@ -71,7 +73,14 @@ def app_hero(slug, body):
 """
 
 
-def page(path, title, description, body):
+PAGES = []
+TRACK_HEAD = ((f'<meta name="google-site-verification" content="{GSC_VERIFY}">\n' if GSC_VERIFY else "")
+              + (f'<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{{"token": "{CF_BEACON}"}}\'></script>\n' if CF_BEACON else ""))
+
+
+def page(path, title, description, body, extra_head=""):
+    if path != "404.html":
+        PAGES.append(path)
     slug = path.split("/")[0]
     wide = path in ("index.html", "services/index.html", "forge-starter-kit/index.html")
     if slug in APP_BY_SLUG:
@@ -95,7 +104,7 @@ def page(path, title, description, body):
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="/style.css?v={CSS_V}">
 <link rel="icon" href="{ICON}">
-</head>
+{extra_head}{TRACK_HEAD}</head>
 <body>
 <header><div class="wrap{' wide' if wide else ''}">
   <a class="logo" href="/"><img src="{ICON}" alt="" width="28" height="28">Loopwise Labs</a>
@@ -108,7 +117,7 @@ def page(path, title, description, body):
   <div class="foot-grid">
     <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
     <div><strong>Apps</strong>{''.join(f'<a href="/{a[0]}/">{escape(a[1])}</a>' for a in APPS)}</div>
-    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:{EMAIL}">{EMAIL}</a></div>
+    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/blog/">Blog</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:{EMAIL}">{EMAIL}</a></div>
   </div>
   <p class="legal">© 2026 Loopwise Labs · {SHORT_ENTITY}</p>
 </div></footer>
@@ -542,7 +551,9 @@ page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs 
 <p>Depending on your location (for example under the GDPR), you may have rights of access, correction, deletion and objection. Because the Apps store data only inside your Atlassian site, most requests can be fulfilled by deleting the relevant rules or content. Otherwise, contact us.</p>
 <h2>8. Data Processing Agreement</h2>
 <p>For customers subject to the GDPR, our <a href="/dpa/">Data Processing Agreement</a> applies automatically to the processing described above.</p>
-<h2>9. Contact</h2>
+<h2>9. This website</h2>
+<p>loopwiselabs.app uses Cloudflare Web Analytics to count page views. It sets no cookies, does not track you across sites and does not collect personal data; it records only aggregate data such as the page, referring site, country and browser type. Purchases of the Forge Starter Kit are handled by Gumroad under its own privacy policy.</p>
+<h2>10. Contact</h2>
 <p><a href="mailto:{EMAIL}">{EMAIL}</a></p>
 """)
 
@@ -615,6 +626,108 @@ page("terms/index.html", "End User Terms | Loopwise Labs", "Terms for using Loop
   <li><strong>Governing law.</strong> These terms are governed by the laws of the Republic of Serbia, and the competent court in the Republic of Serbia has jurisdiction, unless mandatory consumer law says otherwise.</li>
 </ol>
 """)
+
+# ---------- Blog ----------
+POSTS = [
+    ("forge-traps", "5 Forge traps the docs don't mention", "11 November 2026", "2026-11-11",
+     "Five problems we hit while publishing eight Atlassian Forge apps, why they happen, and the exact fix for each."),
+]
+
+
+def kit_box():
+    return f"""
+<section class="cta-band">
+  <h2>Skip the trial and error</h2>
+  <p>The <strong>Forge Starter Kit</strong> has these fixes built in: Jira and Confluence templates, licensing, GDPR reporting, a Marketplace listing kit and a 12-page playbook. One payment, unlimited apps.</p>
+  <div class="actions">{KIT_CTA}<a class="btn ghost" href="/forge-starter-kit/">See what's inside</a></div>
+</section>"""
+
+
+def post_head(slug, title, iso, desc):
+    return ('<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting",'
+            f'"headline":"{title}","datePublished":"{iso}","dateModified":"{iso}","description":"{desc}",'
+            '"author":{"@type":"Organization","name":"Loopwise Labs"},'
+            f'"mainEntityOfPage":"{SITE}/blog/{slug}/"' + '}</script>\n')
+
+
+slug, title, date, iso, desc = POSTS[0]
+page(f"blog/{slug}/index.html", f"{title} | Loopwise Labs", desc, f"""
+<article class="prose post">
+<p class="meta"><a href="/blog/">Blog</a> · {date} · 6 min read</p>
+<h1>{escape(title)}</h1>
+<p class="lead">We published eight Forge apps for Jira and Confluence this year. Most of the work went as the documentation describes. These five things did not, and each one cost us hours. None of them shows up in development, which is what makes them dangerous.</p>
+
+<h2>1. Every new customer sees "Authentication Required"</h2>
+<p>Most Forge resolvers are wrapped in a helper that catches errors and returns them to the UI as a friendly message. That is good practice, until a new user opens your app and it calls Jira with <code>asUser()</code>. Forge needs that user's consent, so the call throws <code>NEEDS_AUTHENTICATION_ERR</code>. If your helper catches it, the user gets an error message and <strong>no way to grant access</strong>.</p>
+<p>You will never see this yourself: you granted access the first time you ran the app. Every customer will.</p>
+<p><strong>Fix:</strong> re-throw that one error so Forge can show its own "Allow access" button.</p>
+<pre><code>const handle = (fn) =&gt; async (req) =&gt; {{
+  try {{
+    return {{ ok: true, data: await fn(req) }};
+  }} catch (e) {{
+    if (e?.name === 'NEEDS_AUTHENTICATION_ERR') throw e; // let Forge ask for consent
+    console.error(e);
+    return {{ ok: false, error: e.message }};
+  }}
+}};</code></pre>
+<p>Then test with a second browser profile or a colleague's account before you submit.</p>
+
+<h2>2. A page that appears for a second and goes blank</h2>
+<p>UI Kit (<code>render: native</code>) can render your component <em>between</em> two state updates. Code like this looks safe:</p>
+<pre><code>setData(await invoke('getData'));
+setSettings(await invoke('getSettings'));
+// ...
+return &lt;Text&gt;{{settings.mode}}&lt;/Text&gt;;</code></pre>
+<p>But there is a render where <code>data</code> is set and <code>settings</code> is still <code>null</code>. <code>settings.mode</code> throws and the whole page disappears. There is nothing in <code>forge logs</code>, because the crash happened in the browser.</p>
+<p><strong>Fix:</strong> render nothing until <em>every</em> piece of data for the screen has arrived, and wrap each screen in an error boundary so a bug shows a message instead of an empty page.</p>
+<pre><code>if (!data || !settings) return &lt;Spinner /&gt;;</code></pre>
+
+<h2>3. One manifest change hides your custom field, and every field of that type</h2>
+<p>We added a <code>resolver</code> inside the <code>contextConfig</code> of a <code>jira:customFieldType</code>. <code>forge lint</code> passed and the deploy succeeded. Jira silently decided the module was invalid and <strong>hid the field type and every existing field created from it</strong>. No error anywhere: the fields were simply gone from issues and settings.</p>
+<p>Removing the nested resolver and deploying again brought everything back.</p>
+<p><strong>Fix:</strong> after any manifest change to a custom field type, open an existing field of that type and check it is still there. Two related surprises: the field's context configuration does not reliably reach the edit view (keep your own copy in Forge storage), and custom field types only work in <em>company-managed</em> projects.</p>
+
+<h2>4. 401 "scope does not match" with the right scope</h2>
+<p>Listing Jira Software boards with <code>read:board-scope:jira-software</code> returned 401. The missing piece was <code>read:project:jira</code>, which the boards endpoint also needs and the error never mentions. Fetching sprint issues through the Agile API wanted further granular scopes; a JQL search was simpler:</p>
+<pre><code>await api.asApp().requestJira(route`/rest/api/3/search/jql`, {{
+  method: 'POST',
+  headers: {{ 'Content-Type': 'application/json' }},
+  body: JSON.stringify({{ jql: `sprint = ${{sprintId}}`, fields: ['status'] }}),
+}});</code></pre>
+<p>Remember that adding a scope is a <strong>major version</strong>: every existing install has to approve the upgrade. Settle your scopes before you go public.</p>
+<p>Bonus: if a screen shows only aggregates (counts, progress, totals) that reveal no content, <code>asApp()</code> avoids the consent screen entirely.</p>
+
+<h2>5. "Automatic Rejection – Invalid Links"</h2>
+<p>All our links loaded fine, and the app was still rejected within minutes. The cause was an <strong>empty "Support ticketing system" field</strong> in the listing: the automatic check counts an empty support link as an invalid one. A second one that cost us a day: pricing entered through the API still shows "pricing has not yet been set" until you open the pricing page and click <strong>Save</strong> once.</p>
+<p><strong>Fix:</strong> fill every link field (support, documentation, terms), check that each returns HTTP 200, and save pricing in the UI before you submit.</p>
+
+<h2>Bonus: the blank page right after a deploy</h2>
+<p>Sometimes a page is blank right after <code>forge deploy</code>, with 404s in the browser console and no resolver calls in the logs. That is Forge still serving the new bundle, not your code. Deploy again or wait a few minutes before you start debugging.</p>
+
+<h2>Summary</h2>
+<ol>
+  <li>Re-throw <code>NEEDS_AUTHENTICATION_ERR</code>.</li>
+  <li>Render only when all data has arrived, and use an error boundary.</li>
+  <li>Check that custom field types still exist after manifest changes.</li>
+  <li>Add <code>read:project:jira</code> for boards, use JQL for sprint issues, and settle scopes before launch.</li>
+  <li>Fill every listing link, including the support field, and save pricing in the UI.</li>
+</ol>
+</article>
+{kit_box()}
+""", post_head(slug, title, iso, desc))
+
+page("blog/index.html", "Blog | Loopwise Labs",
+     "Notes from building and selling Atlassian Forge apps for Jira and Confluence.", f"""
+<h1>Blog</h1>
+<p class="lead">Notes from building and selling Atlassian Forge apps.</p>
+{''.join(f'<div class="card"><p class="meta" style="margin:0 0 6px">{d}</p><h3 style="margin:0 0 6px"><a href="/blog/{sl}/">{escape(t)}</a></h3><p style="margin:0;color:var(--muted)">{escape(ds)}</p></div>' for sl, t, d, _, ds in POSTS)}
+""")
+
+# ---------- SEO files ----------
+(ROOT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    + "".join(f"  <url><loc>{SITE}/{'' if x == 'index.html' else x.replace('index.html', '')}</loc></url>\n" for x in PAGES)
+    + "</urlset>\n")
+(ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
 
 (ROOT / "CNAME").write_text(DOMAIN + "\n")
 (ROOT / "404.html").write_text((ROOT / "index.html").read_text(encoding="utf-8"), encoding="utf-8")

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5 Forge traps the docs don't mention | Loopwise Labs</title>
+<meta name="description" content="Five problems we hit while publishing eight Atlassian Forge apps, why they happen, and the exact fix for each.">
+<link rel="canonical" href="https://loopwiselabs.app/blog/forge-traps/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="5 Forge traps the docs don't mention | Loopwise Labs">
+<meta property="og:description" content="Five problems we hit while publishing eight Atlassian Forge apps, why they happen, and the exact fix for each.">
+<meta property="og:url" content="https://loopwiselabs.app/blog/forge-traps/">
+<meta property="og:image" content="https://loopwiselabs.app/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/style.css?v=4322efa8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"5 Forge traps the docs don't mention","datePublished":"2026-11-11","dateModified":"2026-11-11","description":"Five problems we hit while publishing eight Atlassian Forge apps, why they happen, and the exact fix for each.","author":{"@type":"Organization","name":"Loopwise Labs"},"mainEntityOfPage":"https://loopwiselabs.app/blog/forge-traps/"}</script>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="/"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="" width="28" height="28">Loopwise Labs</a>
+  <nav><a href="/#apps">Apps</a><a href="/services/">Custom apps</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<article class="prose post">
+<p class="meta"><a href="/blog/">Blog</a> · 11 November 2026 · 6 min read</p>
+<h1>5 Forge traps the docs don&#x27;t mention</h1>
+<p class="lead">We published eight Forge apps for Jira and Confluence this year. Most of the work went as the documentation describes. These five things did not, and each one cost us hours. None of them shows up in development, which is what makes them dangerous.</p>
+
+<h2>1. Every new customer sees "Authentication Required"</h2>
+<p>Most Forge resolvers are wrapped in a helper that catches errors and returns them to the UI as a friendly message. That is good practice, until a new user opens your app and it calls Jira with <code>asUser()</code>. Forge needs that user's consent, so the call throws <code>NEEDS_AUTHENTICATION_ERR</code>. If your helper catches it, the user gets an error message and <strong>no way to grant access</strong>.</p>
+<p>You will never see this yourself: you granted access the first time you ran the app. Every customer will.</p>
+<p><strong>Fix:</strong> re-throw that one error so Forge can show its own "Allow access" button.</p>
+<pre><code>const handle = (fn) =&gt; async (req) =&gt; {
+  try {
+    return { ok: true, data: await fn(req) };
+  } catch (e) {
+    if (e?.name === 'NEEDS_AUTHENTICATION_ERR') throw e; // let Forge ask for consent
+    console.error(e);
+    return { ok: false, error: e.message };
+  }
+};</code></pre>
+<p>Then test with a second browser profile or a colleague's account before you submit.</p>
+
+<h2>2. A page that appears for a second and goes blank</h2>
+<p>UI Kit (<code>render: native</code>) can render your component <em>between</em> two state updates. Code like this looks safe:</p>
+<pre><code>setData(await invoke('getData'));
+setSettings(await invoke('getSettings'));
+// ...
+return &lt;Text&gt;{settings.mode}&lt;/Text&gt;;</code></pre>
+<p>But there is a render where <code>data</code> is set and <code>settings</code> is still <code>null</code>. <code>settings.mode</code> throws and the whole page disappears. There is nothing in <code>forge logs</code>, because the crash happened in the browser.</p>
+<p><strong>Fix:</strong> render nothing until <em>every</em> piece of data for the screen has arrived, and wrap each screen in an error boundary so a bug shows a message instead of an empty page.</p>
+<pre><code>if (!data || !settings) return &lt;Spinner /&gt;;</code></pre>
+
+<h2>3. One manifest change hides your custom field, and every field of that type</h2>
+<p>We added a <code>resolver</code> inside the <code>contextConfig</code> of a <code>jira:customFieldType</code>. <code>forge lint</code> passed and the deploy succeeded. Jira silently decided the module was invalid and <strong>hid the field type and every existing field created from it</strong>. No error anywhere: the fields were simply gone from issues and settings.</p>
+<p>Removing the nested resolver and deploying again brought everything back.</p>
+<p><strong>Fix:</strong> after any manifest change to a custom field type, open an existing field of that type and check it is still there. Two related surprises: the field's context configuration does not reliably reach the edit view (keep your own copy in Forge storage), and custom field types only work in <em>company-managed</em> projects.</p>
+
+<h2>4. 401 "scope does not match" with the right scope</h2>
+<p>Listing Jira Software boards with <code>read:board-scope:jira-software</code> returned 401. The missing piece was <code>read:project:jira</code>, which the boards endpoint also needs and the error never mentions. Fetching sprint issues through the Agile API wanted further granular scopes; a JQL search was simpler:</p>
+<pre><code>await api.asApp().requestJira(route`/rest/api/3/search/jql`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ jql: `sprint = ${sprintId}`, fields: ['status'] }),
+});</code></pre>
+<p>Remember that adding a scope is a <strong>major version</strong>: every existing install has to approve the upgrade. Settle your scopes before you go public.</p>
+<p>Bonus: if a screen shows only aggregates (counts, progress, totals) that reveal no content, <code>asApp()</code> avoids the consent screen entirely.</p>
+
+<h2>5. "Automatic Rejection – Invalid Links"</h2>
+<p>All our links loaded fine, and the app was still rejected within minutes. The cause was an <strong>empty "Support ticketing system" field</strong> in the listing: the automatic check counts an empty support link as an invalid one. A second one that cost us a day: pricing entered through the API still shows "pricing has not yet been set" until you open the pricing page and click <strong>Save</strong> once.</p>
+<p><strong>Fix:</strong> fill every link field (support, documentation, terms), check that each returns HTTP 200, and save pricing in the UI before you submit.</p>
+
+<h2>Bonus: the blank page right after a deploy</h2>
+<p>Sometimes a page is blank right after <code>forge deploy</code>, with 404s in the browser console and no resolver calls in the logs. That is Forge still serving the new bundle, not your code. Deploy again or wait a few minutes before you start debugging.</p>
+
+<h2>Summary</h2>
+<ol>
+  <li>Re-throw <code>NEEDS_AUTHENTICATION_ERR</code>.</li>
+  <li>Render only when all data has arrived, and use an error boundary.</li>
+  <li>Check that custom field types still exist after manifest changes.</li>
+  <li>Add <code>read:project:jira</code> for boards, use JQL for sprint issues, and settle scopes before launch.</li>
+  <li>Fill every listing link, including the support field, and save pricing in the UI.</li>
+</ol>
+</article>
+
+<section class="cta-band">
+  <h2>Skip the trial and error</h2>
+  <p>The <strong>Forge Starter Kit</strong> has these fixes built in: Jira and Confluence templates, licensing, GDPR reporting, a Marketplace listing kit and a 12-page playbook. One payment, unlimited apps.</p>
+  <div class="actions"><a class="btn" href="https://filipster56.gumroad.com/l/vdkez">Get the kit for $79</a><a class="btn ghost" href="/forge-starter-kit/">See what's inside</a></div>
+</section>
+
+</div></main>
+<footer><div class="wrap">
+  <div class="foot-grid">
+    <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
+    <div><strong>Apps</strong><a href="/recurring-issues/">Recurring Issues</a><a href="/epic-progress/">Epic Progress</a><a href="/issue-templates/">Issue Templates</a><a href="/sprint-capacity/">Sprint Capacity</a><a href="/burndown/">Sprint Burndown &amp; Burnup</a><a href="/cascading-select/">Cascading Select</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/page-approval/">Page Approval</a></div>
+    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/blog/">Blog</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:support@loopwiselabs.app">support@loopwiselabs.app</a></div>
+  </div>
+  <p class="legal">© 2026 Loopwise Labs · Filip Code, Serbia · MB 65422174 · PIB 111454976</p>
+</div></footer>
+</body>
+</html>
