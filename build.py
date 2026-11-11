@@ -26,7 +26,7 @@ def page(path, title, description, body):
 <body>
 <header><div class="wrap">
   <a class="logo" href="/"><span>L</span>Loopwise Labs</a>
-  <nav><a href="/recurring-issues/">Recurring Issues</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/page-approval/">Page Approval</a><a href="/epic-progress/">Epic Progress</a><a href="/issue-templates/">Issue Templates</a><a href="/sprint-capacity/">Sprint Capacity</a><a href="/burndown/">Burndown</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+  <nav><a href="/recurring-issues/">Recurring Issues</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/page-approval/">Page Approval</a><a href="/epic-progress/">Epic Progress</a><a href="/issue-templates/">Issue Templates</a><a href="/sprint-capacity/">Sprint Capacity</a><a href="/burndown/">Burndown</a><a href="/cascading-select/">Cascading Select</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
 </div></header>
 <main><div class="wrap">
 {body}
@@ -88,6 +88,38 @@ page("index.html", "Loopwise Labs", "Small, reliable apps for Atlassian Cloud.",
   <p>A dashboard gadget with a sprint burndown or burnup by story points, issues or hours, and an on-track signal.</p>
   <a class="btn" href="/burndown/">Learn more</a>
 </div>
+<div class="card">
+  <div class="pill">Jira Cloud · Runs on Atlassian</div>
+  <h3>Cascading Select for Jira</h3>
+  <p>A select field with up to six dependent levels, such as Region › Country › City, set up from a simple indented list.</p>
+  <a class="btn" href="/cascading-select/">Learn more</a>
+</div>
+""")
+
+page("cascading-select/index.html", "Cascading Select for Jira | Loopwise Labs",
+     "Multi-level cascading select custom field for Jira, up to six dependent levels.", f"""
+<div class="pill">Jira Cloud app</div>
+<h1>Cascading Select for Jira</h1>
+<p class="lead">Jira's built-in cascading select stops at two levels. This field goes up to six.</p>
+<ul class="features">
+  <li><strong>Up to six dependent levels:</strong> each dropdown shows only the options under the one chosen above it, such as Region › Country › City or Product › Component › Area.</li>
+  <li><strong>Set up in seconds:</strong> admins paste or type an indented list instead of clicking through option screens.</li>
+  <li><strong>Named levels:</strong> label each dropdown, for example Region, Country and City.</li>
+  <li><strong>Optional full path:</strong> require people to choose down to the last level.</li>
+  <li><strong>Plain values:</strong> stored as text like <code>Europe › Germany › Berlin</code>, so they show up in exports, filters and dashboards.</li>
+  <li><strong>Create, edit and transition screens</strong> in company-managed projects.</li>
+</ul>
+<h2>Getting started</h2>
+<ol>
+  <li>Install the app from the Atlassian Marketplace.</li>
+  <li>In <em>Settings → Work items → Fields</em>, create a field of type <em>Multi-level select (Loopwise)</em> and add it to your screens.</li>
+  <li>Open the field's context and <em>Edit custom field config</em>, enter the option tree and save.</li>
+</ol>
+<h2>FAQ</h2>
+<p><strong>How do I search?</strong> Use the full value, for example <code>Location = "Europe › Germany › Berlin"</code>, or several values with <code>in (…)</code>.</p>
+<p><strong>Team-managed projects?</strong> Jira supports app fields in company-managed projects.</p>
+<p><strong>What is stored?</strong> The option tree (the text you enter) and the chosen values. No personal data.</p>
+<p>Questions? <a href="/support/">Contact support</a>.</p>
 """)
 
 page("sprint-capacity/index.html", "Sprint Capacity for Jira | Loopwise Labs",
@@ -288,7 +320,7 @@ page("support/index.html", "Support | Loopwise Labs", "Get help with Loopwise La
 page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs apps handle data.", f"""
 <h1>Privacy Policy</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>This policy explains how {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), handles data in the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong> and <strong>Sprint Burndown &amp; Burnup for Jira</strong> (each an "App").</p>
+<p>This policy explains how {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), handles data in the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong>, <strong>Sprint Burndown &amp; Burnup for Jira</strong> and <strong>Cascading Select for Jira</strong> (each an "App").</p>
 <h2>1. Where the App runs</h2>
 <p>The App is built on Atlassian Forge and runs entirely on Atlassian's infrastructure. It does not send data to servers operated by us or by any third party.</p>
 <h2>2. What the Apps store</h2>
@@ -308,6 +340,7 @@ page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs 
 <p><strong>Epic Progress for Jira</strong> stores no data. It reads issues as the viewing user to show progress and keeps nothing afterwards.</p>
 <p><strong>Issue Templates for Jira</strong> stores in Atlassian Forge storage the templates your users write (names, texts, issue type, priority and label names, sub-task texts) and one setting. It stores no account IDs.</p>
 <p><strong>Sprint Capacity for Jira</strong> stores in Atlassian Forge storage, per board and sprint, daily rates and days off per person together with their Atlassian account ID. It reads sprint issues to calculate totals and does not store issue content.</p>
+<p><strong>Cascading Select for Jira</strong> stores the option tree an admin enters (in the field configuration and in Forge storage) and the chosen values as ordinary Jira field values. It stores no personal data.</p>
 <p><strong>Sprint Burndown &amp; Burnup for Jira</strong> stores no data apart from the gadget settings Jira keeps for the dashboard (board, sprint, measure).</p>
 <p>The Apps do not store names or email addresses. Apart from Atlassian account IDs, the only personal data is free text your users choose to enter (such as approval notes and comments).</p>
 <h2>3. What we can access</h2>
@@ -330,7 +363,7 @@ page("dpa/index.html", "Data Processing Agreement | Loopwise Labs",
      "Data Processing Agreement for Loopwise Labs apps (GDPR Art. 28).", f"""
 <h1>Data Processing Agreement</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>This Data Processing Agreement ("DPA") forms part of the <a href="/terms/">End User Terms</a> between the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong> and <strong>Sprint Burndown &amp; Burnup for Jira</strong> (each an "App") ("Customer", acting as controller) and {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", acting as processor). It applies automatically when the Customer installs the App and Loopwise Labs processes Customer Personal Data on the Customer's behalf. No signature is required.</p>
+<p>This Data Processing Agreement ("DPA") forms part of the <a href="/terms/">End User Terms</a> between the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong>, <strong>Sprint Burndown &amp; Burnup for Jira</strong> and <strong>Cascading Select for Jira</strong> (each an "App") ("Customer", acting as controller) and {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", acting as processor). It applies automatically when the Customer installs the App and Loopwise Labs processes Customer Personal Data on the Customer's behalf. No signature is required.</p>
 
 <h2>1. Definitions</h2>
 <p>"GDPR" means Regulation (EU) 2016/679, and, where applicable, the UK GDPR and the Serbian Law on Personal Data Protection. "Customer Personal Data" means personal data processed by the App on behalf of the Customer. Terms such as "controller", "processor", "data subject", "personal data breach" and "processing" have the meanings given in the GDPR.</p>
@@ -381,7 +414,7 @@ page("dpa/index.html", "Data Processing Agreement | Loopwise Labs",
 page("terms/index.html", "End User Terms | Loopwise Labs", "Terms for using Loopwise Labs apps.", f"""
 <h1>End User Terms</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>These terms are between {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), and the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong> and <strong>Sprint Burndown &amp; Burnup for Jira</strong> (each an "App") through the Atlassian Marketplace ("you").</p>
+<p>These terms are between {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), and the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong>, <strong>Sprint Burndown &amp; Burnup for Jira</strong> and <strong>Cascading Select for Jira</strong> (each an "App") through the Atlassian Marketplace ("you").</p>
 <ol>
   <li><strong>License.</strong> While your subscription is active, we grant you a non-exclusive, non-transferable right to use the App on the Atlassian sites for which you purchased it.</li>
   <li><strong>Purchases and billing.</strong> Purchases, trials, renewals and refunds are handled by Atlassian under the Atlassian Marketplace terms.</li>
