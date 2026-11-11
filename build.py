@@ -12,7 +12,7 @@ ENTITY = ("Filip Ilić PR Agencija za računarsko programiranje Filip Code Kaona
 SHORT_ENTITY = "Filip Code, Serbia · MB 65422174 · PIB 111454976"
 KIT_URL = "https://filipster56.gumroad.com/l/vdkez"
 KIT_PRICE = "$79"
-CF_BEACON = None    # Cloudflare Web Analytics token (public; cookieless)
+CF_BEACON = "792daecac342490b94ee892968cf1024"    # Cloudflare Web Analytics token (public; cookieless)
 GSC_VERIFY = None   # Google Search Console HTML-tag verification code (public)
 MARKETPLACE = "https://marketplace.atlassian.com/search?query=Loopwise"  # per-app listing URLs once approved
 
