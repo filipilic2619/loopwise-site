@@ -8,8 +8,8 @@ SITE = f"https://{DOMAIN}"
 EMAIL = f"support@{DOMAIN}"
 UPDATED = "11 November 2026"
 ENTITY = ("Filip Ilić PR Agencija za računarsko programiranje Filip Code Kaona, "
-          "registered in the Republic of Serbia, company ID (MB) 65422174, tax ID (PIB) 111454976, "
-          "seat: Kaona, Serbia")
+          "registered in the Republic of Serbia, company ID (MB) 65422174, tax ID (PIB) 111454976")
+SHORT_ENTITY = "Filip Code, Serbia · MB 65422174 · PIB 111454976"
 MARKETPLACE = "https://marketplace.atlassian.com/search?query=Loopwise"  # per-app listing URLs once approved
 
 ROOT = Path(__file__).parent
@@ -108,7 +108,7 @@ def page(path, title, description, body):
     <div><strong>Apps</strong>{''.join(f'<a href="/{a[0]}/">{escape(a[1])}</a>' for a in APPS)}</div>
     <div><strong>Company</strong><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:{EMAIL}">{EMAIL}</a></div>
   </div>
-  <p class="legal">© 2026 Loopwise Labs · {ENTITY}.</p>
+  <p class="legal">© 2026 Loopwise Labs · {SHORT_ENTITY}</p>
 </div></footer>
 </body>
 </html>
