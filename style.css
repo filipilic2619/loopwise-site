@@ -91,3 +91,12 @@ footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 14px
   .app-logo { width: 56px; height: 56px; }
   nav { gap: 14px; }
 }
+
+.logo { white-space: nowrap; }
+@media (max-width: 520px) {
+  header .wrap { height: 56px; }
+  nav { gap: 12px; font-size: 14px; }
+  nav a[href="/privacy/"], nav a[href="/terms/"] { display: none; }
+  main { padding-top: 28px; }
+  .hero { padding-top: 8px; }
+}

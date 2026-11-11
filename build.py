@@ -49,7 +49,7 @@ def app_hero(slug, body):
     cta = (f'<a class="btn" href="{url}">Get it on the Atlassian Marketplace</a>' if url
            else f'<a class="btn" href="{MARKETPLACE}">Find it on the Atlassian Marketplace</a>')
     shots = "".join(
-        f'<figure><a href="/assets/apps/{slug}/shot-{i}.jpg"><img src="/assets/apps/{slug}/shot-{i}.jpg" alt="{escape(c)}" loading="lazy"></a>'
+        f'<figure><a href="/assets/apps/{slug}/shot-{i}.jpg"><img src="/assets/apps/{slug}/shot-{i}.jpg" alt="{escape(c)}"></a>'
         f'<figcaption>{escape(c)}</figcaption></figure>'
         for i, c in enumerate(captions, 1))
     return f"""
