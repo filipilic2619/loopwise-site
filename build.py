@@ -13,6 +13,8 @@ ENTITY = ("Filip Ilić PR Agencija za računarsko programiranje Filip Code Kaona
 MARKETPLACE = "https://marketplace.atlassian.com/search?query=Loopwise"  # per-app listing URLs once approved
 
 ROOT = Path(__file__).parent
+import hashlib
+CSS_V = hashlib.md5((ROOT / "style.css").read_bytes()).hexdigest()[:8]
 
 # slug, name, product, one-liner, screenshot captions, Marketplace URL (None until approved)
 APPS = [
@@ -89,7 +91,7 @@ def page(path, title, description, body):
 <meta property="og:url" content="{canonical}">
 <meta property="og:image" content="{og_image}">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/style.css?v={CSS_V}">
 <link rel="icon" href="{ICON}">
 </head>
 <body>
