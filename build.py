@@ -10,6 +10,8 @@ UPDATED = "11 November 2026"
 ENTITY = ("Filip Ilić PR Agencija za računarsko programiranje Filip Code Kaona, "
           "registered in the Republic of Serbia, company ID (MB) 65422174, tax ID (PIB) 111454976")
 SHORT_ENTITY = "Filip Code, Serbia · MB 65422174 · PIB 111454976"
+KIT_URL = None  # set to the Gumroad / Lemon Squeezy product URL once it exists
+KIT_PRICE = "$79"
 MARKETPLACE = "https://marketplace.atlassian.com/search?query=Loopwise"  # per-app listing URLs once approved
 
 ROOT = Path(__file__).parent
@@ -71,7 +73,7 @@ def app_hero(slug, body):
 
 def page(path, title, description, body):
     slug = path.split("/")[0]
-    wide = path in ("index.html", "services/index.html")
+    wide = path in ("index.html", "services/index.html", "forge-starter-kit/index.html")
     if slug in APP_BY_SLUG:
         body = app_hero(slug, body)
         wide = True
@@ -106,7 +108,7 @@ def page(path, title, description, body):
   <div class="foot-grid">
     <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
     <div><strong>Apps</strong>{''.join(f'<a href="/{a[0]}/">{escape(a[1])}</a>' for a in APPS)}</div>
-    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:{EMAIL}">{EMAIL}</a></div>
+    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:{EMAIL}">{EMAIL}</a></div>
   </div>
   <p class="legal">© 2026 Loopwise Labs · {SHORT_ENTITY}</p>
 </div></footer>
@@ -427,6 +429,68 @@ page("services/index.html", "Custom Jira and Confluence apps, built fast | Loopw
   <h2>Tell us what slows your team down</h2>
   <p>Describe the app in a few sentences. You'll get a fixed quote within one business day.</p>
   <a class="btn" href="{MAILTO}">Email {EMAIL}</a>
+</section>
+""")
+
+KIT_CTA = (f'<a class="btn" href="{KIT_URL}">Get the kit for {KIT_PRICE}</a>' if KIT_URL else
+           f'<a class="btn" href="mailto:{EMAIL}?subject=Forge%20Starter%20Kit">Get the kit for {KIT_PRICE}</a>')
+
+page("forge-starter-kit/index.html", "Forge Starter Kit: from idea to Atlassian Marketplace in 7 days | Loopwise Labs",
+     "Templates, tools and a step-by-step guide to build Jira and Confluence Forge apps and publish them on the Atlassian Marketplace in a week.", f"""
+<section class="hero">
+  <div class="pill">For developers · Atlassian Forge · Jira &amp; Confluence</div>
+  <h1>Ship your first Atlassian Marketplace app in 7 days.</h1>
+  <p class="lead">The templates, tools and playbook we used to publish eight Forge apps for Jira and Confluence. Skip the weeks of trial and error: licensing, GDPR reporting, the "Allow access" trap, listing forms, pricing and the reasons apps get rejected are all solved for you.</p>
+  <div class="actions">{KIT_CTA}<a class="btn ghost" href="#inside">What's inside</a></div>
+  <p class="note">One-time payment · Use it for unlimited apps · Free updates</p>
+</section>
+
+<section class="trust">
+  <div><strong>Proven</strong><span>The exact process behind our eight Marketplace apps.</span></div>
+  <div><strong>Ready to deploy</strong><span>Jira and Confluence templates that pass Forge lint and ship with tests.</span></div>
+  <div><strong>Marketplace-ready</strong><span>Every listing field, privacy answer and keyword, in order.</span></div>
+  <div><strong>Yours to keep</strong><span>Use the code in any number of your own apps.</span></div>
+</section>
+
+<h2 id="inside">What's inside</h2>
+<div class="svc-grid">
+  <div class="svc"><h3>12-page playbook (PDF)</h3><p>From Idea to Atlassian Marketplace in 7 Days: picking an idea that sells, building, testing, licensing, privacy, listing and launch.</p></div>
+  <div class="svc"><h3>Jira app template</h3><p>Global page and issue panel with storage, license checks, a weekly GDPR report, an error boundary and unit tests.</p></div>
+  <div class="svc"><h3>Confluence app template</h3><p>Space page and macro with the same patterns, ready to rename and extend.</p></div>
+  <div class="svc"><h3>Opportunity finder</h3><p>Scans the Marketplace for "weak leaders": paid apps with many installs but low ratings or no recent releases.</p></div>
+  <div class="svc"><h3>Listing kit</h3><p>Every form field in the order you meet it, with limits, the fixed category and keyword lists, and Privacy &amp; Security answers.</p></div>
+  <div class="svc"><h3>Pricing and screenshot tools</h3><p>Set tiered prices for many apps through the API and crop screenshots to the 1840 x 900 highlight size.</p></div>
+</div>
+
+<h2>Traps this kit saves you from</h2>
+<div class="prose">
+<ul class="features">
+  <li><strong>"Authentication Required" for every new customer:</strong> catching Forge's auth error hides the Allow access button. You never see it in development.</li>
+  <li><strong>Blank screens:</strong> UI Kit renders between state updates. One missing value and the whole page is empty with nothing in the logs.</li>
+  <li><strong>Custom fields that disappear:</strong> one invalid manifest change hides the field type and every field using it.</li>
+  <li><strong>Scope surprises:</strong> the extra permissions Jira Agile and Confluence v2 really need, and which ones force a major version upgrade on every customer.</li>
+  <li><strong>Marketplace rejections:</strong> empty support links, unsaved pricing, non-unique names, keywords that must come from a fixed list.</li>
+</ul>
+</div>
+
+<h2>Who it's for</h2>
+<div class="prose">
+<p>Developers and small teams who know JavaScript and want a second income from the Atlassian Marketplace, consultants who build Forge apps for clients, and companies moving Data Center plugins to Cloud.</p>
+</div>
+
+<h2>FAQ</h2>
+<div class="prose">
+<p><strong>Do I need Forge experience?</strong> No. You need JavaScript and a free Atlassian developer site. The guide covers setup step by step.</p>
+<p><strong>Can I use the code in commercial apps?</strong> Yes, in as many of your own apps as you like. You just can't resell the kit itself.</p>
+<p><strong>What format is it?</strong> A ZIP with the PDF guide, two Forge projects, Python tools and Markdown docs. Works on macOS, Linux and Windows (the screenshot cropper is macOS only).</p>
+<p><strong>What if Atlassian changes something?</strong> Updates are free. Download the latest version from your purchase link.</p>
+<p><strong>Refunds?</strong> If the kit isn't useful to you, email us within 14 days for a full refund.</p>
+</div>
+
+<section class="cta-band">
+  <h2>Start building today</h2>
+  <p>{KIT_PRICE} once. Templates, tools and the full playbook.</p>
+  {KIT_CTA}
 </section>
 """)
 
