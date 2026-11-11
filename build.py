@@ -26,7 +26,7 @@ def page(path, title, description, body):
 <body>
 <header><div class="wrap">
   <a class="logo" href="/"><span>L</span>Loopwise Labs</a>
-  <nav><a href="/recurring-issues/">Recurring Issues</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/page-approval/">Page Approval</a><a href="/epic-progress/">Epic Progress</a><a href="/issue-templates/">Issue Templates</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+  <nav><a href="/recurring-issues/">Recurring Issues</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/page-approval/">Page Approval</a><a href="/epic-progress/">Epic Progress</a><a href="/issue-templates/">Issue Templates</a><a href="/sprint-capacity/">Sprint Capacity</a><a href="/burndown/">Burndown</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
 </div></header>
 <main><div class="wrap">
 {body}
@@ -76,6 +76,65 @@ page("index.html", "Loopwise Labs", "Small, reliable apps for Atlassian Cloud.",
   <p>Create issues with all their sub-tasks from a template, with variables like {{{{customer}}}} filled in.</p>
   <a class="btn" href="/issue-templates/">Learn more</a>
 </div>
+<div class="card">
+  <div class="pill">Jira Cloud · Runs on Atlassian</div>
+  <h3>Sprint Capacity for Jira</h3>
+  <p>See who is over or under capacity in a sprint, in hours or story points, with days off included.</p>
+  <a class="btn" href="/sprint-capacity/">Learn more</a>
+</div>
+<div class="card">
+  <div class="pill">Jira Cloud · Runs on Atlassian</div>
+  <h3>Sprint Burndown &amp; Burnup for Jira</h3>
+  <p>A dashboard gadget with a sprint burndown or burnup by story points, issues or hours, and an on-track signal.</p>
+  <a class="btn" href="/burndown/">Learn more</a>
+</div>
+""")
+
+page("sprint-capacity/index.html", "Sprint Capacity for Jira | Loopwise Labs",
+     "Sprint capacity for Jira: hours or story points per person against their availability, with days off.", f"""
+<div class="pill">Jira Cloud app</div>
+<h1>Sprint Capacity for Jira</h1>
+<p class="lead">Before the sprint starts, know who has too much and who has room.</p>
+<ul class="features">
+  <li><strong>Per person:</strong> capacity from the working days left in the sprint, minus days off, times hours (or points) per day.</li>
+  <li><strong>Real load:</strong> each person's unfinished sprint work, by remaining estimate or story points.</li>
+  <li><strong>Clear status:</strong> Has room, Good, Full or Over capacity, plus team totals and unassigned work.</li>
+  <li><strong>Days off and part-timers:</strong> set days off per sprint and a different daily rate per person.</li>
+  <li><strong>Plan ahead:</strong> works for the active sprint and future sprints, and you can add people who have no work yet.</li>
+</ul>
+<h2>Getting started</h2>
+<ol>
+  <li>Install the app from the Atlassian Marketplace.</li>
+  <li>Open a Scrum project and the <em>Sprint capacity</em> tab.</li>
+  <li>Choose the board and sprint, enter days off, and click <em>Save and recalculate</em>.</li>
+</ol>
+<h2>FAQ</h2>
+<p><strong>Which days count?</strong> Monday to Friday between today (or the sprint start) and the sprint end.</p>
+<p><strong>What is stored?</strong> Daily rates and days off per person, with their Atlassian account ID. Closed accounts are removed automatically every week.</p>
+<p>Questions? <a href="/support/">Contact support</a>.</p>
+""")
+
+page("burndown/index.html", "Sprint Burndown & Burnup for Jira | Loopwise Labs",
+     "Sprint burndown and burnup dashboard gadget for Jira: story points, issue count or hours.", f"""
+<div class="pill">Jira Cloud app</div>
+<h1>Sprint Burndown &amp; Burnup for Jira</h1>
+<p class="lead">The sprint chart your team actually looks at, right on the Jira dashboard.</p>
+<ul class="features">
+  <li><strong>Burndown or burnup</strong> for the active sprint (follows the board) or any chosen sprint.</li>
+  <li><strong>Your measure:</strong> story points, issue count or original estimate in hours.</li>
+  <li><strong>On track or behind:</strong> compares completed work with the guideline and shows days left.</li>
+  <li><strong>Weekends skipped</strong> by default, so the guideline is realistic.</li>
+  <li><strong>Stores nothing:</strong> the gadget reads Jira and shows totals only.</li>
+</ul>
+<h2>Getting started</h2>
+<ol>
+  <li>Install the app from the Atlassian Marketplace.</li>
+  <li>On a Jira dashboard click <em>Edit → Add gadget → Sprint Burndown &amp; Burnup</em>.</li>
+  <li>Choose the board, measure and chart type, and save.</li>
+</ol>
+<h2>FAQ</h2>
+<p><strong>Issues added mid-sprint?</strong> The chart uses the sprint's current issues for the whole sprint.</p>
+<p>Questions? <a href="/support/">Contact support</a>.</p>
 """)
 
 page("issue-templates/index.html", "Issue Templates for Jira | Loopwise Labs",
@@ -229,7 +288,7 @@ page("support/index.html", "Support | Loopwise Labs", "Get help with Loopwise La
 page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs apps handle data.", f"""
 <h1>Privacy Policy</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>This policy explains how {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), handles data in the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong> and <strong>Issue Templates for Jira</strong> (each an "App").</p>
+<p>This policy explains how {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), handles data in the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong> and <strong>Sprint Burndown &amp; Burnup for Jira</strong> (each an "App").</p>
 <h2>1. Where the App runs</h2>
 <p>The App is built on Atlassian Forge and runs entirely on Atlassian's infrastructure. It does not send data to servers operated by us or by any third party.</p>
 <h2>2. What the Apps store</h2>
@@ -248,6 +307,8 @@ page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs 
 <p><strong>Page Approval for Confluence</strong> stores in page properties the approval status and history of each page: the account IDs of the requester and approvers, their decisions and comments, page versions, dates and an optional note. In Atlassian Forge storage it keeps per space the account IDs of default approvers and approval managers. It also adds status labels and posts comments that @mention approvers and requesters.</p>
 <p><strong>Epic Progress for Jira</strong> stores no data. It reads issues as the viewing user to show progress and keeps nothing afterwards.</p>
 <p><strong>Issue Templates for Jira</strong> stores in Atlassian Forge storage the templates your users write (names, texts, issue type, priority and label names, sub-task texts) and one setting. It stores no account IDs.</p>
+<p><strong>Sprint Capacity for Jira</strong> stores in Atlassian Forge storage, per board and sprint, daily rates and days off per person together with their Atlassian account ID. It reads sprint issues to calculate totals and does not store issue content.</p>
+<p><strong>Sprint Burndown &amp; Burnup for Jira</strong> stores no data apart from the gadget settings Jira keeps for the dashboard (board, sprint, measure).</p>
 <p>The Apps do not store names or email addresses. Apart from Atlassian account IDs, the only personal data is free text your users choose to enter (such as approval notes and comments).</p>
 <h2>3. What we can access</h2>
 <p>We do not have access to your Jira or Confluence content or the Apps' stored data. The exception is function logs that Atlassian provides to app developers. These contain technical information (IDs, issue keys, error messages) and are used only to diagnose problems.</p>
@@ -269,7 +330,7 @@ page("dpa/index.html", "Data Processing Agreement | Loopwise Labs",
      "Data Processing Agreement for Loopwise Labs apps (GDPR Art. 28).", f"""
 <h1>Data Processing Agreement</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>This Data Processing Agreement ("DPA") forms part of the <a href="/terms/">End User Terms</a> between the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong> and <strong>Issue Templates for Jira</strong> (each an "App") ("Customer", acting as controller) and {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", acting as processor). It applies automatically when the Customer installs the App and Loopwise Labs processes Customer Personal Data on the Customer's behalf. No signature is required.</p>
+<p>This Data Processing Agreement ("DPA") forms part of the <a href="/terms/">End User Terms</a> between the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong> and <strong>Sprint Burndown &amp; Burnup for Jira</strong> (each an "App") ("Customer", acting as controller) and {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", acting as processor). It applies automatically when the Customer installs the App and Loopwise Labs processes Customer Personal Data on the Customer's behalf. No signature is required.</p>
 
 <h2>1. Definitions</h2>
 <p>"GDPR" means Regulation (EU) 2016/679, and, where applicable, the UK GDPR and the Serbian Law on Personal Data Protection. "Customer Personal Data" means personal data processed by the App on behalf of the Customer. Terms such as "controller", "processor", "data subject", "personal data breach" and "processing" have the meanings given in the GDPR.</p>
@@ -279,7 +340,7 @@ page("dpa/index.html", "Data Processing Agreement | Loopwise Labs",
   <li><strong>Subject matter and purpose:</strong> Recurring Issues for Jira: creating Jira issues on schedules configured by the Customer's users. Q&amp;A for Confluence: creating and organising questions and answers as Confluence content. Page Approval for Confluence: recording approval requests and decisions on Confluence pages and notifying the people involved.</li>
   <li><strong>Duration:</strong> while the App is installed, plus the deletion period in section 9.</li>
   <li><strong>Nature of processing:</strong> storage of configuration and metadata, and use of it to create, assign and transition Jira issues or to create Confluence pages, comments, labels and page properties.</li>
-  <li><strong>Categories of data subjects:</strong> the Customer's Atlassian users who create rules, are set as assignees, vote, accept answers, are named moderators, request or decide approvals, or are named default approvers or approval managers.</li>
+  <li><strong>Categories of data subjects:</strong> the Customer's Atlassian users who create rules, are set as assignees, vote, accept answers, are named moderators, request or decide approvals, are named default approvers or approval managers, or have days off and daily rates entered in Sprint Capacity.</li>
   <li><strong>Types of personal data:</strong> Atlassian account IDs, plus, for Page Approval for Confluence, the free-text notes and decision comments users enter. No names, email addresses or special categories of data are stored.</li>
 </ul>
 
@@ -320,7 +381,7 @@ page("dpa/index.html", "Data Processing Agreement | Loopwise Labs",
 page("terms/index.html", "End User Terms | Loopwise Labs", "Terms for using Loopwise Labs apps.", f"""
 <h1>End User Terms</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>These terms are between {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), and the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong> and <strong>Issue Templates for Jira</strong> (each an "App") through the Atlassian Marketplace ("you").</p>
+<p>These terms are between {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), and the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong> and <strong>Sprint Burndown &amp; Burnup for Jira</strong> (each an "App") through the Atlassian Marketplace ("you").</p>
 <ol>
   <li><strong>License.</strong> While your subscription is active, we grant you a non-exclusive, non-transferable right to use the App on the Atlassian sites for which you purchased it.</li>
   <li><strong>Purchases and billing.</strong> Purchases, trials, renewals and refunds are handled by Atlassian under the Atlassian Marketplace terms.</li>
