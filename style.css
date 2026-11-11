@@ -100,3 +100,19 @@ footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 14px
   main { padding-top: 28px; }
   .hero { padding-top: 8px; }
 }
+
+/* Services */
+.svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.svc { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; box-shadow: var(--shadow); }
+.svc h3 { margin: 0 0 6px; font-size: 17px; }
+.svc p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
+ol.steps { padding-left: 22px; max-width: 760px; }
+ol.steps li { margin: 10px 0; }
+.price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.price { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
+.price.featured { border: 2px solid var(--accent); }
+.price h3 { margin: 0; font-size: 17px; }
+.price .amount { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin: 8px 0; }
+.price p { margin: 0; color: var(--muted); font-size: 15px; }
+.note { color: var(--muted); font-size: 14px; margin-top: 12px; }
+@media (max-width: 800px) { .svc-grid, .price-grid { grid-template-columns: 1fr; } }

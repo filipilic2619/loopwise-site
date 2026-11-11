@@ -71,7 +71,7 @@ def app_hero(slug, body):
 
 def page(path, title, description, body):
     slug = path.split("/")[0]
-    wide = path == "index.html"
+    wide = path in ("index.html", "services/index.html")
     if slug in APP_BY_SLUG:
         body = app_hero(slug, body)
         wide = True
@@ -97,7 +97,7 @@ def page(path, title, description, body):
 <body>
 <header><div class="wrap{' wide' if wide else ''}">
   <a class="logo" href="/"><img src="{ICON}" alt="" width="28" height="28">Loopwise Labs</a>
-  <nav><a href="/#apps">Apps</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+  <nav><a href="/#apps">Apps</a><a href="/services/">Custom apps</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
 </div></header>
 <main><div class="wrap{' wide' if wide else ''}">
 {body}
@@ -106,7 +106,7 @@ def page(path, title, description, body):
   <div class="foot-grid">
     <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
     <div><strong>Apps</strong>{''.join(f'<a href="/{a[0]}/">{escape(a[1])}</a>' for a in APPS)}</div>
-    <div><strong>Company</strong><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:{EMAIL}">{EMAIL}</a></div>
+    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:{EMAIL}">{EMAIL}</a></div>
   </div>
   <p class="legal">© 2026 Loopwise Labs · {SHORT_ENTITY}</p>
 </div></footer>
@@ -152,9 +152,9 @@ page("index.html", "Loopwise Labs | Apps for Jira and Confluence Cloud",
 </section>
 
 <section class="cta-band">
-  <h2>Missing something?</h2>
-  <p>Tell us what slows your team down in Jira or Confluence. Small, focused apps are what we build.</p>
-  <a class="btn" href="mailto:{EMAIL}">Email {EMAIL}</a>
+  <h2>Need an app that doesn't exist yet?</h2>
+  <p>We build custom Jira and Confluence apps on Atlassian Forge in one to two weeks, at a fixed price.</p>
+  <div class="actions"><a class="btn" href="/services/">Custom apps</a><a class="btn ghost" href="mailto:{EMAIL}">Email {EMAIL}</a></div>
 </section>
 """)
 
@@ -367,6 +367,67 @@ page("recurring-issues/index.html", "Recurring Issues for Jira | Loopwise Labs",
 <p><strong>The issue wasn't added to the sprint.</strong> The project needs a started sprint on a Scrum or team-managed board. The rule shows a warning when no active sprint is found.</p>
 <p><strong>What happens if my subscription ends?</strong> Your rules are kept but no new issues are created until the license is active again.</p>
 <p>Questions? <a href="/support/">Contact support</a>.</p>
+""")
+
+MAILTO = ("mailto:" + EMAIL + "?subject=Custom%20Atlassian%20app&body="
+          "Hi%20Loopwise%20Labs%2C%0A%0AProduct%20(Jira%20or%20Confluence)%3A%20%0AWhat%20the%20app%20should%20do%3A%20%0A"
+          "Who%20will%20use%20it%3A%20%0AWhen%20you%20need%20it%3A%20%0A%0AThanks!")
+
+page("services/index.html", "Custom Jira and Confluence apps, built fast | Loopwise Labs",
+     "Custom Atlassian Forge apps for Jira and Confluence Cloud: fixed price, delivered in one to two weeks, running entirely on Atlassian.", f"""
+<section class="hero">
+  <div class="pill">Custom apps · Jira &amp; Confluence Cloud · Atlassian Forge</div>
+  <h1>The Jira or Confluence app your team needs, built in a week or two.</h1>
+  <p class="lead">Can't find the right app on the Marketplace, or need something only your team does? We design, build and install a custom Forge app for you, at a fixed price agreed up front.</p>
+  <div class="actions"><a class="btn" href="{MAILTO}">Describe your idea</a><a class="btn ghost" href="/#apps">See our apps</a></div>
+</section>
+
+<section class="trust">
+  <div><strong>Fixed price</strong><span>A clear quote within one business day. No hourly surprises.</span></div>
+  <div><strong>Fast</strong><span>Most apps are ready in one to two weeks.</span></div>
+  <div><strong>Runs on Atlassian</strong><span>Built on Forge, so your data never leaves your Atlassian site.</span></div>
+  <div><strong>Proven</strong><span>We build and maintain eight apps for Jira and Confluence.</span></div>
+</section>
+
+<h2>What we build</h2>
+<div class="svc-grid">
+  <div class="svc"><h3>Custom fields and screens</h3><p>Fields Jira doesn't have, such as multi-level selects, calculated values, validations and panels on the issue view.</p></div>
+  <div class="svc"><h3>Reports and dashboard gadgets</h3><p>The numbers your team actually tracks: capacity, SLAs, budgets, progress across projects, as a page or a gadget.</p></div>
+  <div class="svc"><h3>Automations and scheduled jobs</h3><p>Recurring work, clean-ups, escalations and sync between projects that Jira Automation can't handle or makes too costly.</p></div>
+  <div class="svc"><h3>Confluence workflows</h3><p>Approvals, reviews, Q&amp;A, templates, macros and space pages that fit how your team writes and decides.</p></div>
+  <div class="svc"><h3>Integrations</h3><p>Connect Jira or Confluence to your CRM, ERP, HR or monitoring tools, through Forge and your APIs.</p></div>
+  <div class="svc"><h3>Moving to Cloud</h3><p>Rebuild Data Center scripts and plugins as Cloud apps so you can finish your migration.</p></div>
+</div>
+
+<h2>How it works</h2>
+<ol class="steps">
+  <li><strong>Tell us what you need.</strong> A short email or a 30-minute call is enough.</li>
+  <li><strong>Get a fixed quote</strong> with scope, price and delivery date within one business day.</li>
+  <li><strong>We build it</strong> and show you progress on your test site, so you can try it early.</li>
+  <li><strong>We install it</strong> on your site, hand over the documentation and fix anything that comes up in the first 30 days.</li>
+</ol>
+
+<h2>Pricing</h2>
+<div class="price-grid">
+  <div class="price"><h3>Small app</h3><div class="amount">from $1,500</div><p>One focused feature: a field, a report, a gadget, a scheduled job or a Confluence macro.</p></div>
+  <div class="price featured"><h3>Team app</h3><div class="amount">from $3,000</div><p>A complete tool with its own pages, settings and permissions, like the apps we publish.</p></div>
+  <div class="price"><h3>Care plan</h3><div class="amount">$150 / month</div><p>Updates when Atlassian changes the platform, small changes and priority support.</p></div>
+</div>
+<p class="note">Prices in USD, excluding taxes. 50% when we start, 50% on delivery. Your final price is in the quote.</p>
+
+<h2>FAQ</h2>
+<div class="prose">
+<p><strong>Who owns the app?</strong> You do. You get the source code, and the app can run under your own Atlassian developer account.</p>
+<p><strong>Where is our data stored?</strong> Forge apps run on Atlassian's infrastructure. Unless an integration needs it, no data leaves your Atlassian site.</p>
+<p><strong>Can you change one of your Marketplace apps for us?</strong> Yes. Tell us what you need and we'll tell you whether it fits the public app or needs a custom version.</p>
+<p><strong>Which time zone are you in?</strong> Central European Time. We answer email within one business day.</p>
+</div>
+
+<section class="cta-band">
+  <h2>Tell us what slows your team down</h2>
+  <p>Describe the app in a few sentences. You'll get a fixed quote within one business day.</p>
+  <a class="btn" href="{MAILTO}">Email {EMAIL}</a>
+</section>
 """)
 
 page("support/index.html", "Support | Loopwise Labs", "Get help with Loopwise Labs apps.", f"""
