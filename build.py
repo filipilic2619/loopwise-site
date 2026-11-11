@@ -10,7 +10,7 @@ UPDATED = "11 November 2026"
 ENTITY = ("Filip Ilić PR Agencija za računarsko programiranje Filip Code Kaona, "
           "registered in the Republic of Serbia, company ID (MB) 65422174, tax ID (PIB) 111454976")
 SHORT_ENTITY = "Filip Code, Serbia · MB 65422174 · PIB 111454976"
-KIT_URL = None  # set to the Gumroad / Lemon Squeezy product URL once it exists
+KIT_URL = "https://filipster56.gumroad.com/l/vdkez"
 KIT_PRICE = "$79"
 MARKETPLACE = "https://marketplace.atlassian.com/search?query=Loopwise"  # per-app listing URLs once approved
 
