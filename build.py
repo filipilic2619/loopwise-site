@@ -73,7 +73,7 @@ page("index.html", "Loopwise Labs", "Small, reliable apps for Atlassian Cloud.",
 <div class="card">
   <div class="pill">Jira Cloud · Runs on Atlassian</div>
   <h3>Issue Templates for Jira</h3>
-  <p>Create issues with all their sub-tasks from a template, with variables like {{customer}} filled in.</p>
+  <p>Create issues with all their sub-tasks from a template, with variables like {{{{customer}}}} filled in.</p>
   <a class="btn" href="/issue-templates/">Learn more</a>
 </div>
 """)
