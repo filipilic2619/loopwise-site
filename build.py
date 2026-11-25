@@ -36,6 +36,8 @@ APPS = [
      ["Up to six dependent levels", "Options from an indented list", "Clean values everywhere"], None),
     ("qa-for-confluence", "Q&A", "Confluence", "Ask and answer questions inside Confluence, with search that finds answers, not just titles.",
      ["Search that finds answers", "Accepted answers and voting", "FAQ, tags and an Unanswered queue"], None),
+    ("gantt", "Gantt Chart", "Jira", "A Gantt chart across projects: drag to reschedule, dependencies and milestones, and nothing ever gets deleted.",
+     ["Your project on a timeline", "Drag to reschedule, saved at once", "Several projects in one plan"], None),
     ("page-approval", "Page Approval", "Confluence", "Get pages approved by the right people, with approvals that expire when the page changes.",
      ["Approval status next to the author", "Approvals that expire when the page changes", "Every approval in a space, in one place"], None),
 ]
@@ -43,7 +45,7 @@ APPS = [
 # is approved: its buttons then link straight to its listing instead of the Marketplace search.
 MP_IDS = {"recurring-issues": 2150623549, "epic-progress": 2453250247, "issue-templates": 552040668,
           "sprint-capacity": 2833788023, "burndown": 3135809348, "cascading-select": 2817071446,
-          "qa-for-confluence": 2222518940, "page-approval": 3569242819}
+          "qa-for-confluence": 2222518940, "page-approval": 3569242819, "gantt": None}
 LIVE = set()
 APPS = [a[:5] + (f"https://marketplace.atlassian.com/apps/{MP_IDS[a[0]]}" if a[0] in LIVE else a[5],) for a in APPS]
 APP_BY_SLUG = {a[0]: a for a in APPS}
@@ -246,6 +248,32 @@ page("burndown/index.html", "Sprint Burndown & Burnup for Jira | Loopwise Labs",
 </ol>
 <h2>FAQ</h2>
 <p><strong>Issues added mid-sprint?</strong> The chart uses the sprint's current issues for the whole sprint.</p>
+<p>Questions? <a href="/support/">Contact support</a>.</p>
+""")
+
+page("gantt/index.html", "Gantt Chart for Jira | Loopwise Labs",
+     "Gantt chart for Jira across projects: drag to reschedule with instant save and undo, dependency arrows, release milestones. Never deletes anything.", f"""
+<div class="pill">Jira Cloud app</div>
+<h1>Gantt Chart for Jira</h1>
+<p class="lead">See every project, or several at once, on one timeline. Drag to reschedule. Nothing you didn't touch ever changes.</p>
+<ul class="features">
+  <li><strong>Hierarchy on the left:</strong> epics, stories and sub-tasks with expand and collapse, assignee, start and due.</li>
+  <li><strong>Drag to move or resize:</strong> the new dates are saved to Jira at once, as you, with your permissions. Ctrl+Z undoes it. No save button to forget.</li>
+  <li><strong>Dependencies:</strong> Blocks links drawn as arrows; a successor that starts before its predecessor ends turns red.</li>
+  <li><strong>Milestones:</strong> release dates of your versions, a today line and weekend shading. Zoom by day, week, month or quarter.</li>
+  <li><strong>Plans across projects:</strong> combine projects or any JQL into a saved plan, private or shared.</li>
+  <li><strong>Safe by design:</strong> the app only ever changes the start and due date of an issue you drag. It never deletes issues, links or anything else, and stores no issue data.</li>
+</ul>
+<h2>Getting started</h2>
+<ol>
+  <li>Install the app from the Atlassian Marketplace.</li>
+  <li>Open a project and choose <em>Gantt</em> in the project navigation, or open <em>Apps → Gantt plans</em> to combine several projects.</li>
+  <li>Drag bars to reschedule. Issues without dates are listed too: click on their row in the chart to schedule them.</li>
+</ol>
+<h2>FAQ</h2>
+<p><strong>Which dates are used?</strong> Jira's <em>Start date</em> and <em>Due date</em> by default. You can pick any date fields in Settings. Issues without dates can use their sprint's dates.</p>
+<p><strong>Why can't I move a bar?</strong> You need permission to edit the issue, and the date fields must be on the issue type's edit screen.</p>
+<p><strong>How many issues?</strong> Up to 5,000 per chart; they load page by page, so the first rows appear right away.</p>
 <p>Questions? <a href="/support/">Contact support</a>.</p>
 """)
 
@@ -523,7 +551,7 @@ page("support/index.html", "Support | Loopwise Labs", "Get help with Loopwise La
 page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs apps handle data.", f"""
 <h1>Privacy Policy</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>This policy explains how {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), handles data in the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong>, <strong>Sprint Burndown &amp; Burnup for Jira</strong> and <strong>Cascading Select for Jira</strong> (each an "App").</p>
+<p>This policy explains how {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), handles data in the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong>, <strong>Sprint Burndown &amp; Burnup for Jira</strong>, <strong>Cascading Select for Jira</strong> and <strong>Gantt Chart for Jira</strong> (each an "App").</p>
 <h2>1. Where the App runs</h2>
 <p>The App is built on Atlassian Forge and runs entirely on Atlassian's infrastructure. It does not send data to servers operated by us or by any third party.</p>
 <h2>2. What the Apps store</h2>
@@ -545,6 +573,7 @@ page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs 
 <p><strong>Sprint Capacity for Jira</strong> stores in Atlassian Forge storage, per board and sprint, daily rates and days off per person together with their Atlassian account ID. It reads sprint issues to calculate totals and does not store issue content.</p>
 <p><strong>Cascading Select for Jira</strong> stores the option tree an admin enters (in the field configuration and in Forge storage) and the chosen values as ordinary Jira field values. It stores no personal data.</p>
 <p><strong>Sprint Burndown &amp; Burnup for Jira</strong> stores no data apart from the gadget settings Jira keeps for the dashboard (board, sprint, measure).</p>
+<p><strong>Gantt Chart for Jira</strong> stores in Atlassian Forge storage the plans users save (name, chosen projects or JQL, display settings, and the Atlassian account ID of the plan's creator) and per-user view settings (zoom and collapsed rows) keyed by Atlassian account ID. Issue data is read from Jira in the user's browser when the chart is shown and is never stored. The only change the App makes in Jira is to the start and due dates of issues the user drags.</p>
 <p>The Apps do not store names or email addresses. Apart from Atlassian account IDs, the only personal data is free text your users choose to enter (such as approval notes and comments).</p>
 <h2>3. What we can access</h2>
 <p>We do not have access to your Jira or Confluence content or the Apps' stored data. The exception is function logs that Atlassian provides to app developers. These contain technical information (IDs, issue keys, error messages) and are used only to diagnose problems.</p>
@@ -568,7 +597,7 @@ page("dpa/index.html", "Data Processing Agreement | Loopwise Labs",
      "Data Processing Agreement for Loopwise Labs apps (GDPR Art. 28).", f"""
 <h1>Data Processing Agreement</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>This Data Processing Agreement ("DPA") forms part of the <a href="/terms/">End User Terms</a> between the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong>, <strong>Sprint Burndown &amp; Burnup for Jira</strong> and <strong>Cascading Select for Jira</strong> (each an "App") ("Customer", acting as controller) and {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", acting as processor). It applies automatically when the Customer installs the App and Loopwise Labs processes Customer Personal Data on the Customer's behalf. No signature is required.</p>
+<p>This Data Processing Agreement ("DPA") forms part of the <a href="/terms/">End User Terms</a> between the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong>, <strong>Sprint Burndown &amp; Burnup for Jira</strong>, <strong>Cascading Select for Jira</strong> and <strong>Gantt Chart for Jira</strong> (each an "App") ("Customer", acting as controller) and {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", acting as processor). It applies automatically when the Customer installs the App and Loopwise Labs processes Customer Personal Data on the Customer's behalf. No signature is required.</p>
 
 <h2>1. Definitions</h2>
 <p>"GDPR" means Regulation (EU) 2016/679, and, where applicable, the UK GDPR and the Serbian Law on Personal Data Protection. "Customer Personal Data" means personal data processed by the App on behalf of the Customer. Terms such as "controller", "processor", "data subject", "personal data breach" and "processing" have the meanings given in the GDPR.</p>
@@ -619,7 +648,7 @@ page("dpa/index.html", "Data Processing Agreement | Loopwise Labs",
 page("terms/index.html", "End User Terms | Loopwise Labs", "Terms for using Loopwise Labs apps.", f"""
 <h1>End User Terms</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>These terms are between {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), and the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong>, <strong>Sprint Burndown &amp; Burnup for Jira</strong> and <strong>Cascading Select for Jira</strong> (each an "App") through the Atlassian Marketplace ("you").</p>
+<p>These terms are between {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), and the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong>, <strong>Sprint Burndown &amp; Burnup for Jira</strong>, <strong>Cascading Select for Jira</strong> and <strong>Gantt Chart for Jira</strong> (each an "App") through the Atlassian Marketplace ("you").</p>
 <ol>
   <li><strong>License.</strong> While your subscription is active, we grant you a non-exclusive, non-transferable right to use the App on the Atlassian sites for which you purchased it.</li>
   <li><strong>Purchases and billing.</strong> Purchases, trials, renewals and refunds are handled by Atlassian under the Atlassian Marketplace terms.</li>
