@@ -126,7 +126,7 @@ def page(path, title, description, body, extra_head=""):
   <div class="foot-grid">
     <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
     <div><strong>Apps</strong>{''.join(f'<a href="/{a[0]}/">{escape(a[1])}</a>' for a in APPS)}</div>
-    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/blog/">Blog</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:{EMAIL}">{EMAIL}</a></div>
+    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/blog/">Blog</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/security/">Security</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:{EMAIL}">{EMAIL}</a></div>
   </div>
   <p class="legal">© 2026 Loopwise Labs · {SHORT_ENTITY}</p>
 </div></footer>
@@ -546,6 +546,42 @@ page("support/index.html", "Support | Loopwise Labs", "Get help with Loopwise La
   <p>To help us help you, please include your Atlassian site URL (e.g. <code>yourteam.atlassian.net</code>), the app name, what you expected, and what happened. A screenshot of the rule helps a lot.</p>
 </div>
 <p>Security issue? Write to the same address with "SECURITY" in the subject.</p>
+""")
+
+page("security/index.html", "Security Policy | Loopwise Labs", "How Loopwise Labs keeps its Atlassian Marketplace apps secure, and how to report a vulnerability.", f"""
+<div class="prose">
+<h1>Security Policy</h1>
+<p class="meta">Last updated: {UPDATED}</p>
+<p>This policy describes how Loopwise Labs ({SHORT_ENTITY}) protects customers who use our Atlassian Marketplace apps, and how to report a security issue.</p>
+
+<h2>Where our apps run</h2>
+<ul>
+  <li>All our apps are built on <strong>Atlassian Forge</strong> and run entirely on Atlassian's infrastructure ("Runs on Atlassian"). We operate no servers of our own.</li>
+  <li>The apps make no calls to external services (no egress) and use no third-party integrations, API keys or secrets.</li>
+  <li>Any data an app stores (for example settings or saved plans) is kept in Atlassian Forge storage, encrypted at rest by Atlassian, and is deleted by Atlassian when the app is uninstalled.</li>
+  <li>Apps request only the Jira or Confluence permissions (scopes) they need. Where an app reads or changes content on a user's behalf, it does so as that user, so the product's own permissions apply.</li>
+</ul>
+
+<h2>Development practices</h2>
+<ul>
+  <li>Multi-factor authentication on all accounts used to build, deploy and publish the apps (Atlassian, source control, email).</li>
+  <li>Workstations with full-disk encryption, automatic operating system updates, built-in malware protection and a password manager with unique passwords.</li>
+  <li>Dependency (SCA) scanning with <code>npm audit</code> and <code>forge lint</code> before every production deploy; we follow the OWASP Top 10.</li>
+  <li>We do not log credentials, tokens or unnecessary personal data. App logs stay within Atlassian.</li>
+</ul>
+
+<h2>Reporting a vulnerability</h2>
+<p>Email <a href="mailto:{EMAIL}">{EMAIL}</a> with the app name, a description and steps to reproduce. We acknowledge reports within 2 business days. Please give us reasonable time to fix the issue before disclosing it publicly.</p>
+
+<h2>Fixing vulnerabilities</h2>
+<p>We triage reports using CVSS and fix confirmed vulnerabilities within the timeframes of the <a href="https://developer.atlassian.com/platform/marketplace/security-bugfix-policy/">Atlassian Marketplace security bug-fix policy</a> for cloud apps: Critical within 10 days, High within 4 weeks, Medium within 12 weeks and Low within 25 weeks. Fixes reach customers automatically, because the apps are hosted by Atlassian.</p>
+
+<h2>Security incidents</h2>
+<p>We keep a written incident response plan based on Atlassian's guidelines: detect, triage within 24 hours, contain (for example by rolling back to the last safe version), notify Atlassian and affected customers without undue delay, fix, and review. Customers are informed through Atlassian's vulnerability notification process.</p>
+
+<h2>Contact</h2>
+<p>Security contact: <a href="mailto:{EMAIL}">{EMAIL}</a>.</p>
+</div>
 """)
 
 page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs apps handle data.", f"""

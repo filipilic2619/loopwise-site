@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security Policy | Loopwise Labs</title>
+<meta name="description" content="How Loopwise Labs keeps its Atlassian Marketplace apps secure, and how to report a vulnerability.">
+<link rel="canonical" href="https://loopwiselabs.app/security/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Security Policy | Loopwise Labs">
+<meta property="og:description" content="How Loopwise Labs keeps its Atlassian Marketplace apps secure, and how to report a vulnerability.">
+<meta property="og:url" content="https://loopwiselabs.app/security/">
+<meta property="og:image" content="https://loopwiselabs.app/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/style.css?v=4322efa8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "792daecac342490b94ee892968cf1024"}'></script>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="/"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="" width="28" height="28">Loopwise Labs</a>
+  <nav><a href="/#apps">Apps</a><a href="/services/">Custom apps</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<div class="prose">
+<h1>Security Policy</h1>
+<p class="meta">Last updated: 11 November 2026</p>
+<p>This policy describes how Loopwise Labs (Filip Code, Serbia · MB 65422174 · PIB 111454976) protects customers who use our Atlassian Marketplace apps, and how to report a security issue.</p>
+
+<h2>Where our apps run</h2>
+<ul>
+  <li>All our apps are built on <strong>Atlassian Forge</strong> and run entirely on Atlassian's infrastructure ("Runs on Atlassian"). We operate no servers of our own.</li>
+  <li>The apps make no calls to external services (no egress) and use no third-party integrations, API keys or secrets.</li>
+  <li>Any data an app stores (for example settings or saved plans) is kept in Atlassian Forge storage, encrypted at rest by Atlassian, and is deleted by Atlassian when the app is uninstalled.</li>
+  <li>Apps request only the Jira or Confluence permissions (scopes) they need. Where an app reads or changes content on a user's behalf, it does so as that user, so the product's own permissions apply.</li>
+</ul>
+
+<h2>Development practices</h2>
+<ul>
+  <li>Multi-factor authentication on all accounts used to build, deploy and publish the apps (Atlassian, source control, email).</li>
+  <li>Workstations with full-disk encryption, automatic operating system updates, built-in malware protection and a password manager with unique passwords.</li>
+  <li>Dependency (SCA) scanning with <code>npm audit</code> and <code>forge lint</code> before every production deploy; we follow the OWASP Top 10.</li>
+  <li>We do not log credentials, tokens or unnecessary personal data. App logs stay within Atlassian.</li>
+</ul>
+
+<h2>Reporting a vulnerability</h2>
+<p>Email <a href="mailto:support@loopwiselabs.app">support@loopwiselabs.app</a> with the app name, a description and steps to reproduce. We acknowledge reports within 2 business days. Please give us reasonable time to fix the issue before disclosing it publicly.</p>
+
+<h2>Fixing vulnerabilities</h2>
+<p>We triage reports using CVSS and fix confirmed vulnerabilities within the timeframes of the <a href="https://developer.atlassian.com/platform/marketplace/security-bugfix-policy/">Atlassian Marketplace security bug-fix policy</a> for cloud apps: Critical within 10 days, High within 4 weeks, Medium within 12 weeks and Low within 25 weeks. Fixes reach customers automatically, because the apps are hosted by Atlassian.</p>
+
+<h2>Security incidents</h2>
+<p>We keep a written incident response plan based on Atlassian's guidelines: detect, triage within 24 hours, contain (for example by rolling back to the last safe version), notify Atlassian and affected customers without undue delay, fix, and review. Customers are informed through Atlassian's vulnerability notification process.</p>
+
+<h2>Contact</h2>
+<p>Security contact: <a href="mailto:support@loopwiselabs.app">support@loopwiselabs.app</a>.</p>
+</div>
+
+</div></main>
+<footer><div class="wrap">
+  <div class="foot-grid">
+    <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
+    <div><strong>Apps</strong><a href="/recurring-issues/">Recurring Issues</a><a href="/epic-progress/">Epic Progress</a><a href="/issue-templates/">Issue Templates</a><a href="/sprint-capacity/">Sprint Capacity</a><a href="/burndown/">Sprint Burndown &amp; Burnup</a><a href="/cascading-select/">Cascading Select</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/gantt/">Gantt Chart</a><a href="/page-approval/">Page Approval</a></div>
+    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/blog/">Blog</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/security/">Security</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:support@loopwiselabs.app">support@loopwiselabs.app</a></div>
+  </div>
+  <p class="legal">© 2026 Loopwise Labs · Filip Code, Serbia · MB 65422174 · PIB 111454976</p>
+</div></footer>
+</body>
+</html>
