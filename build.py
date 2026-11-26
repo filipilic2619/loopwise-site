@@ -47,8 +47,8 @@ APPS = [
 # is approved: its buttons then link straight to its listing instead of the Marketplace search.
 MP_IDS = {"recurring-issues": 2150623549, "epic-progress": 2453250247, "issue-templates": 552040668,
           "sprint-capacity": 2833788023, "burndown": 3135809348, "cascading-select": 2817071446,
-          "qa-for-confluence": 2222518940, "page-approval": 3569242819, "gantt": None,
-          "capacity-planner": None}
+          "qa-for-confluence": 2222518940, "page-approval": 3569242819, "gantt": 582578591,
+          "capacity-planner": 1453833724}
 LIVE = {"qa-for-confluence", "epic-progress", "sprint-capacity", "burndown", "issue-templates", "page-approval"}
 APPS = [a[:5] + (f"https://marketplace.atlassian.com/apps/{MP_IDS[a[0]]}" if a[0] in LIVE else a[5],) for a in APPS]
 APP_BY_SLUG = {a[0]: a for a in APPS}
