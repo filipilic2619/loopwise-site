@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jira cascading select with more than two levels | Loopwise Labs</title>
+<meta name="description" content="Jira's built-in cascading select stops at two levels. How to get three to six dependent dropdowns, such as Region › Country › City.">
+<link rel="canonical" href="https://loopwiselabs.app/blog/jira-cascading-select-more-levels/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jira cascading select with more than two levels | Loopwise Labs">
+<meta property="og:description" content="Jira's built-in cascading select stops at two levels. How to get three to six dependent dropdowns, such as Region › Country › City.">
+<meta property="og:url" content="https://loopwiselabs.app/blog/jira-cascading-select-more-levels/">
+<meta property="og:image" content="https://loopwiselabs.app/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/style.css?v=4322efa8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Jira cascading select with more than two levels","datePublished":"2026-11-26","dateModified":"2026-11-26","description":"Jira's built-in cascading select stops at two levels. How to get three to six dependent dropdowns, such as Region › Country › City.","author":{"@type":"Organization","name":"Loopwise Labs"},"mainEntityOfPage":"https://loopwiselabs.app/blog/jira-cascading-select-more-levels/"}</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "792daecac342490b94ee892968cf1024"}'></script>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="/"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="" width="28" height="28">Loopwise Labs</a>
+  <nav><a href="/#apps">Apps</a><a href="/services/">Custom apps</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<article class="prose post">
+<p class="meta"><a href="/blog/">Blog</a> · November 2026 · 4 min read</p>
+<h1>Jira cascading select with more than two levels</h1>
+
+<p class="lead">Jira's built-in <strong>Select List (cascading)</strong> field has exactly two levels: a parent and a child. That covers Country › City, but not Region › Country › City, or Product › Component › Area. Here are your options.</p>
+
+<h2>Option 1: Two-level cascading select plus a second field</h2>
+<p>Use the built-in cascading field for the first two levels and a separate select list for the third. It is free, but the third list cannot depend on the first two: people see every option, and invalid combinations get through.</p>
+
+<h2>Option 2: Combine levels into one option</h2>
+<p>Put two levels into one option, such as "Europe – Germany" › "Berlin". It works for small trees, but the option list grows fast and reports become harder to read.</p>
+
+<h2>Option 3: A multi-level cascading select field</h2>
+<p><a href="/cascading-select/">Cascading Select for Jira</a> adds a field type with <strong>up to six dependent levels</strong>. Each dropdown only offers the options under the one chosen above it.</p>
+<ol>
+  <li>In <strong>Jira settings → Issues → Custom fields</strong>, create a field of type <em>Multi-level select (Loopwise)</em> and add it to your screens.</li>
+  <li>In the field's configuration, <strong>type or paste the whole option tree as an indented list</strong>. Indent to nest.</li>
+</ol>
+<pre><code>Europe
+  Germany
+    Berlin
+    Munich
+  France
+    Paris
+North America
+  USA
+    New York</code></pre>
+<ol start="3">
+  <li>Optionally name the levels (Region, Country, City) and require a choice down to the last level.</li>
+</ol>
+<p>The value is stored as plain text, such as <code>Europe › Germany › Berlin</code>, so it shows up cleanly in exports, filters and dashboards and can be searched by exact value. It works on create, edit and transition screens in company-managed projects.</p>
+
+<h2>Which one should you use?</h2>
+<ul>
+  <li><strong>Two levels are enough:</strong> use the built-in field.</li>
+  <li><strong>Three or more levels, and wrong combinations matter</strong> (routing, reporting, SLAs): use a multi-level field.</li>
+</ul>
+
+</article>
+
+<section class="cta-band">
+  <h2>Cascading Select for Jira</h2>
+  <p>A select field with up to six dependent levels, set up from a simple indented list. Free for up to 10 users, and it runs entirely on Atlassian.</p>
+  <div class="actions"><a class="btn" href="https://marketplace.atlassian.com/apps/2817071446">Get it on the Atlassian Marketplace</a><a class="btn ghost" href="/cascading-select/">How it works</a></div>
+</section>
+
+</div></main>
+<footer><div class="wrap">
+  <div class="foot-grid">
+    <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
+    <div><strong>Apps</strong><a href="/recurring-issues/">Recurring Issues</a><a href="/epic-progress/">Epic Progress</a><a href="/issue-templates/">Issue Templates</a><a href="/sprint-capacity/">Sprint Capacity</a><a href="/burndown/">Sprint Burndown &amp; Burnup</a><a href="/cascading-select/">Cascading Select</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/gantt/">Gantt Chart</a><a href="/capacity-planner/">Capacity Planner</a><a href="/page-approval/">Page Approval</a></div>
+    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/blog/">Blog</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/security/">Security</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:support@loopwiselabs.app">support@loopwiselabs.app</a></div>
+  </div>
+  <p class="legal">© 2026 Loopwise Labs · Filip Code, Serbia · MB 65422174 · PIB 111454976</p>
+</div></footer>
+</body>
+</html>

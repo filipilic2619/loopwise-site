@@ -151,9 +151,9 @@ GUIDES = [
     {
         "slug": "jira-cascading-select-more-levels",
         "app": "cascading-select",
-        "live": False,
+        "live": True,
         "title": "Jira cascading select with more than two levels",
-        "date": "December 2026", "iso": "2026-12-01", "minutes": 4,
+        "date": "November 2026", "iso": "2026-11-26", "minutes": 4,
         "desc": "Jira's built-in cascading select stops at two levels. How to get three to six dependent dropdowns, such as Region › Country › City.",
         "body": """
 <p class="lead">Jira's built-in <strong>Select List (cascading)</strong> field has exactly two levels: a parent and a child. That covers Country › City, but not Region › Country › City, or Product › Component › Area. Here are your options.</p>
