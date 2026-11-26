@@ -104,9 +104,9 @@ GUIDES = [
     {
         "slug": "confluence-questions-and-answers",
         "app": "qa-for-confluence",
-        "live": False,
+        "live": True,
         "title": "Internal Q&A in Confluence: questions and answers your team can actually find",
-        "date": "December 2026", "iso": "2026-12-01", "minutes": 4,
+        "date": "November 2026", "iso": "2026-11-26", "minutes": 4,
         "desc": "How to run an internal Q&A or FAQ inside Confluence, so answers stop disappearing in chat and people can search for them later.",
         "body": """
 <p class="lead">The same questions get asked in chat every week: "Where is the VPN guide?", "Who approves travel?", "How do I get a test account?". The answers scroll away, and the next person asks again. An internal Q&amp;A in Confluence keeps those answers where people already search.</p>
