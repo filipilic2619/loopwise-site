@@ -123,3 +123,8 @@ ol.steps li { margin: 10px 0; }
 .post :not(pre) > code { background: var(--accent-soft); padding: 1px 5px; border-radius: 5px; }
 .post { overflow-wrap: break-word; }
 .post :not(pre) > code { word-break: break-word; }
+.pill.soon { background: #fff4d6; color: #8a5a00; margin-left: 6px; }
+.btn.soon { background: var(--line); border-color: var(--line); color: var(--muted); cursor: default; }
+.btn.soon:hover { filter: none; }
+.soon-tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 99px; background: #fff4d6; color: #8a5a00; vertical-align: middle; margin-left: 6px; letter-spacing: 0; }
+@media (prefers-color-scheme: dark) { .pill.soon, .soon-tag { background: #3a2f12; color: #f3c969; } }

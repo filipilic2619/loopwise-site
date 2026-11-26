@@ -6,7 +6,7 @@ from pathlib import Path
 DOMAIN = "loopwiselabs.app"
 SITE = f"https://{DOMAIN}"
 EMAIL = f"support@{DOMAIN}"
-UPDATED = "11 November 2026"
+UPDATED = "26 November 2026"
 ENTITY = ("Filip Ilić PR Agencija za računarsko programiranje Filip Code Kaona, "
           "registered in the Republic of Serbia, company ID (MB) 65422174, tax ID (PIB) 111454976")
 SHORT_ENTITY = "Filip Code, Serbia · MB 65422174 · PIB 111454976"
@@ -51,7 +51,16 @@ MP_IDS = {"recurring-issues": 2150623549, "epic-progress": 2453250247, "issue-te
           "capacity-planner": 1453833724}
 LIVE = {"qa-for-confluence", "epic-progress", "sprint-capacity", "burndown", "issue-templates", "page-approval", "cascading-select"}
 APPS = [a[:5] + (f"https://marketplace.atlassian.com/apps/{MP_IDS[a[0]]}" if a[0] in LIVE else a[5],) for a in APPS]
+from new_apps import NEW_APPS
+NEW_BY_SLUG = {n["slug"]: n for n in NEW_APPS}
+APPS += [(n["slug"], n["short"], n["product"], n["tagline"] + ".", [h[2] for h in n["highlights"]], None) for n in NEW_APPS]
 APP_BY_SLUG = {a[0]: a for a in APPS}
+SOON = [a[0] for a in APPS if a[0] not in LIVE]   # not on the Marketplace yet: shown as "Coming soon"
+OLD_NAMES = ["Recurring Issues for Jira", "Q&amp;A for Confluence", "Page Approval for Confluence", "Epic Progress for Jira",
+             "Issue Templates for Jira", "Sprint Capacity for Jira", "Sprint Burndown &amp; Burnup for Jira", "Cascading Select for Jira",
+             "Gantt Chart for Jira", "Capacity Planner for Jira"]
+ALL_NAMES = OLD_NAMES + [escape(n["name"].replace("Loopwise ", "")) for n in NEW_APPS]
+APP_LIST = ", ".join(f"<strong>{n}</strong>" for n in ALL_NAMES[:-1]) + f" and <strong>{ALL_NAMES[-1]}</strong>"
 
 ICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E"
         "%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E"
@@ -64,8 +73,11 @@ def app_hero(slug, body):
     h1 = re.search(r"<h1>(.*?)</h1>", body, re.S).group(1)
     lead = re.search(r'<p class="lead">(.*?)</p>', body, re.S).group(1)
     rest = re.sub(r'^\s*<div class="pill">.*?</div>\s*<h1>.*?</h1>\s*<p class="lead">.*?</p>', "", body, count=1, flags=re.S)
-    cta = (f'<a class="btn" href="{url}">Get it on the Atlassian Marketplace</a>' if url
+    soon = slug in SOON
+    cta = (f'<span class="btn soon">Coming soon to the Atlassian Marketplace</span><a class="btn ghost" href="mailto:{EMAIL}?subject={escape(name)}%20early%20access">Get early access</a>' if soon
+           else f'<a class="btn" href="{url}">Get it on the Atlassian Marketplace</a>' if url
            else f'<a class="btn" href="{MARKETPLACE}">Find it on the Atlassian Marketplace</a>')
+    captions = [c for i, c in enumerate(captions, 1) if (ROOT / f"assets/apps/{slug}/shot-{i}.jpg").exists()]
     shots = "".join(
         f'<figure><a href="/assets/apps/{slug}/shot-{i}.jpg"><img src="/assets/apps/{slug}/shot-{i}.jpg" alt="{escape(c)}"></a>'
         f'<figcaption>{escape(c)}</figcaption></figure>'
@@ -74,13 +86,13 @@ def app_hero(slug, body):
 <section class="app-hero">
   <img class="app-logo" src="/assets/apps/{slug}/logo.png" alt="" width="72" height="72">
   <div>
-    <div class="pill">{product} Cloud app · Runs on Atlassian</div>
+    <div class="pill">{product} Cloud app · Runs on Atlassian</div>{' <div class="pill soon">Coming soon</div>' if soon else ''}
     <h1>{h1}</h1>
     <p class="lead">{lead}</p>
     <div class="actions">{cta}<a class="btn ghost" href="/support/">Questions? Contact support</a></div>
   </div>
 </section>
-<div class="gallery">{shots}</div>
+{f'<div class="gallery">{shots}</div>' if shots else ''}
 <div class="prose">{rest}</div>
 """
 
@@ -99,7 +111,7 @@ def page(path, title, description, body, extra_head=""):
         body = app_hero(slug, body)
         wide = True
     canonical = SITE + "/" + ("" if path in ("index.html", "404.html") else path.replace("index.html", ""))
-    og_image = f"{SITE}/assets/apps/{slug}/shot-1.jpg" if slug in APP_BY_SLUG else f"{SITE}/assets/og.png"
+    og_image = f"{SITE}/assets/apps/{slug}/shot-1.jpg" if slug in APP_BY_SLUG and (ROOT / f"assets/apps/{slug}/shot-1.jpg").exists() else f"{SITE}/assets/og.png"
     html = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -145,8 +157,8 @@ def app_cards(product):
     return "".join(f"""
   <a class="app-card" href="/{slug}/">
     <img src="/assets/apps/{slug}/logo.png" alt="" width="56" height="56" loading="lazy">
-    <div><h3>{escape(name)}</h3><p>{escape(short)}</p><span class="more">Learn more →</span></div>
-  </a>""" for slug, name, prod, short, *_ in APPS if prod == product)
+    <div><h3>{escape(name)}{' <span class="soon-tag">Coming soon</span>' if slug in SOON else ''}</h3><p>{escape(short)}</p><span class="more">Learn more →</span></div>
+  </a>""" for slug, name, prod, short, *_ in sorted(APPS, key=lambda x: x[0] in SOON) if prod == product)
 
 
 page("index.html", "Loopwise Labs | Apps for Jira and Confluence Cloud",
@@ -615,10 +627,29 @@ page("security/index.html", "Security Policy | Loopwise Labs", "How Loopwise Lab
 </div>
 """)
 
+for n in NEW_APPS:
+    title = n["name"].replace("Loopwise ", "")
+    feats = "".join(f"\n  <li><strong>{f[0][0].upper() + f[0][1:]}:</strong> {f[1]}</li>" for f in n["features"])
+    steps = "".join(f"\n  <li>{st}</li>" for st in n["steps"])
+    faq = "".join(f"\n<p><strong>{escape(q)}</strong> {escape(a_)}</p>" for q, a_ in n["faq"])
+    page(f"{n['slug']}/index.html", f"{escape(title)} | Loopwise Labs", escape(n["summary"]), f"""
+<div class="pill">{n['product']} Cloud app</div>
+<h1>{escape(title)}</h1>
+<p class="lead">{escape(n['lead'])}</p>
+<ul class="features">{feats}
+</ul>
+<h2>Getting started</h2>
+<ol>
+  <li>Install the app from the Atlassian Marketplace (coming soon).</li>{steps}
+</ol>
+<h2>FAQ</h2>{faq}
+<p>Questions, or want early access? <a href="/support/">Contact support</a>.</p>
+""")
+
 page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs apps handle data.", f"""
 <h1>Privacy Policy</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>This policy explains how {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), handles data in the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong>, <strong>Sprint Burndown &amp; Burnup for Jira</strong>, <strong>Cascading Select for Jira</strong>, <strong>Gantt Chart for Jira</strong> and <strong>Capacity Planner for Jira</strong> (each an "App").</p>
+<p>This policy explains how {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), handles data in the Atlassian Marketplace apps {APP_LIST} (each an "App").</p>
 <h2>1. Where the App runs</h2>
 <p>The App is built on Atlassian Forge and runs entirely on Atlassian's infrastructure. It does not send data to servers operated by us or by any third party.</p>
 <h2>2. What the Apps store</h2>
@@ -642,7 +673,8 @@ page("privacy/index.html", "Privacy Policy | Loopwise Labs", "How Loopwise Labs 
 <p><strong>Sprint Burndown &amp; Burnup for Jira</strong> stores no data apart from the gadget settings Jira keeps for the dashboard (board, sprint, measure).</p>
 <p><strong>Gantt Chart for Jira</strong> stores in Atlassian Forge storage the plans users save (name, chosen projects or JQL, display settings, and the Atlassian account ID of the plan's creator) and per-user view settings (zoom and collapsed rows) keyed by Atlassian account ID. Issue data is read from Jira in the user's browser when the chart is shown and is never stored. The only change the App makes in Jira is to the start and due dates of issues the user drags.</p>
 <p><strong>Capacity Planner for Jira</strong> stores in Atlassian Forge storage the teams users create (name, the Atlassian account IDs of the creator and members, chosen projects or JQL, unit and public holidays), each person's capacity settings keyed by Atlassian account ID (hours or story points per day, working weekdays and time-off dates with an optional note), and planned allocations (person, label, dates and percentage). Issue data is read from Jira in the user's browser when the grid is shown and is never stored. The App does not change anything in Jira.</p>
-<p>The Apps do not store names or email addresses. Apart from Atlassian account IDs, the only personal data is free text your users choose to enter (such as approval notes and comments).</p>
+{''.join(f'<p><strong>{escape(n["name"].replace("Loopwise ", ""))}</strong> {escape(n["privacy"])}</p>' if n["privacy"] else f'<p><strong>{escape(n["name"].replace("Loopwise ", ""))}</strong> stores no data. It reads content as the current user, in the browser, and keeps nothing afterwards.</p>' for n in NEW_APPS)}
+<p>Apart from CRM for Jira, the Apps do not store names or email addresses. Apart from Atlassian account IDs, the only personal data is free text your users choose to enter (such as approval notes, comments and notes). CRM for Jira stores the contact details of the Customer's own customers that users enter (name, email, phone, job title and notes); the Customer decides what to enter and is responsible for having a lawful basis for it.</p>
 <h2>3. What we can access</h2>
 <p>We do not have access to your Jira or Confluence content or the Apps' stored data. The exception is function logs that Atlassian provides to app developers. These contain technical information (IDs, issue keys, error messages) and are used only to diagnose problems.</p>
 <h2>4. Purpose and legal basis</h2>
@@ -665,18 +697,18 @@ page("dpa/index.html", "Data Processing Agreement | Loopwise Labs",
      "Data Processing Agreement for Loopwise Labs apps (GDPR Art. 28).", f"""
 <h1>Data Processing Agreement</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>This Data Processing Agreement ("DPA") forms part of the <a href="/terms/">End User Terms</a> between the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong>, <strong>Sprint Burndown &amp; Burnup for Jira</strong>, <strong>Cascading Select for Jira</strong>, <strong>Gantt Chart for Jira</strong> and <strong>Capacity Planner for Jira</strong> (each an "App") ("Customer", acting as controller) and {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", acting as processor). It applies automatically when the Customer installs the App and Loopwise Labs processes Customer Personal Data on the Customer's behalf. No signature is required.</p>
+<p>This Data Processing Agreement ("DPA") forms part of the <a href="/terms/">End User Terms</a> between the customer that installs the Atlassian Marketplace apps {APP_LIST} (each an "App") ("Customer", acting as controller) and {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", acting as processor). It applies automatically when the Customer installs the App and Loopwise Labs processes Customer Personal Data on the Customer's behalf. No signature is required.</p>
 
 <h2>1. Definitions</h2>
 <p>"GDPR" means Regulation (EU) 2016/679, and, where applicable, the UK GDPR and the Serbian Law on Personal Data Protection. "Customer Personal Data" means personal data processed by the App on behalf of the Customer. Terms such as "controller", "processor", "data subject", "personal data breach" and "processing" have the meanings given in the GDPR.</p>
 
 <h2>2. Details of processing</h2>
 <ul>
-  <li><strong>Subject matter and purpose:</strong> Recurring Issues for Jira: creating Jira issues on schedules configured by the Customer's users. Q&amp;A for Confluence: creating and organising questions and answers as Confluence content. Page Approval for Confluence: recording approval requests and decisions on Confluence pages and notifying the people involved.</li>
+  <li><strong>Subject matter and purpose:</strong> Recurring Issues for Jira: creating Jira issues on schedules configured by the Customer's users. Q&amp;A for Confluence: creating and organising questions and answers as Confluence content. Page Approval for Confluence: recording approval requests and decisions on Confluence pages and notifying the people involved. The other Apps: providing the functions described on each App's page and in the <a href="/privacy/">Privacy Policy</a>.</li>
   <li><strong>Duration:</strong> while the App is installed, plus the deletion period in section 9.</li>
   <li><strong>Nature of processing:</strong> storage of configuration and metadata, and use of it to create, assign and transition Jira issues or to create Confluence pages, comments, labels and page properties.</li>
-  <li><strong>Categories of data subjects:</strong> the Customer's Atlassian users who create rules, are set as assignees, vote, accept answers, are named moderators, request or decide approvals, are named default approvers or approval managers, or have days off and daily rates entered in Sprint Capacity.</li>
-  <li><strong>Types of personal data:</strong> Atlassian account IDs, plus, for Page Approval for Confluence, the free-text notes and decision comments users enter. No names, email addresses or special categories of data are stored.</li>
+  <li><strong>Categories of data subjects:</strong> the Customer's Atlassian users who create rules, are set as assignees, vote, accept answers, are named moderators, request or decide approvals, are named default approvers or approval managers, or have days off and daily rates entered in Sprint Capacity or Capacity Planner, hourly rates entered in Cost &amp; Budget Tracker, confirm pages in Read Confirmations, like or moderate forum topics, vote in Planning Poker, or own records in CRM for Jira; and, for CRM for Jira, the people at the Customer's own customers whose contact details users enter.</li>
+  <li><strong>Types of personal data:</strong> Atlassian account IDs, plus free-text notes and comments users enter (for example in Page Approval for Confluence and CRM for Jira), hourly rates in Cost &amp; Budget Tracker, and, for CRM for Jira only, the names, email addresses, phone numbers and job titles of customer contacts that users enter. No special categories of data are stored.</li>
 </ul>
 
 <h2>3. Processing on instructions</h2>
@@ -716,7 +748,7 @@ page("dpa/index.html", "Data Processing Agreement | Loopwise Labs",
 page("terms/index.html", "End User Terms | Loopwise Labs", "Terms for using Loopwise Labs apps.", f"""
 <h1>End User Terms</h1>
 <p class="meta">Last updated: {UPDATED}</p>
-<p>These terms are between {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), and the customer that installs the Atlassian Marketplace apps <strong>Recurring Issues for Jira</strong>, <strong>Q&amp;A for Confluence</strong>, <strong>Page Approval for Confluence</strong>, <strong>Epic Progress for Jira</strong>, <strong>Issue Templates for Jira</strong>, <strong>Sprint Capacity for Jira</strong>, <strong>Sprint Burndown &amp; Burnup for Jira</strong>, <strong>Cascading Select for Jira</strong>, <strong>Gantt Chart for Jira</strong> and <strong>Capacity Planner for Jira</strong> (each an "App") through the Atlassian Marketplace ("you").</p>
+<p>These terms are between {ENTITY}, operating under the brand Loopwise Labs ("Loopwise Labs", "we"), and the customer that installs the Atlassian Marketplace apps {APP_LIST} (each an "App") through the Atlassian Marketplace ("you").</p>
 <ol>
   <li><strong>License.</strong> While your subscription is active, we grant you a non-exclusive, non-transferable right to use the App on the Atlassian sites for which you purchased it.</li>
   <li><strong>Purchases and billing.</strong> Purchases, trials, renewals and refunds are handled by Atlassian under the Atlassian Marketplace terms.</li>
