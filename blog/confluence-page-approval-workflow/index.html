@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confluence page approval: how to set up a review and sign-off workflow | Loopwise Labs</title>
+<meta name="description" content="How to get Confluence pages reviewed and approved, keep an audit trail for ISO or SOC 2, and know when an approved page has changed.">
+<link rel="canonical" href="https://loopwiselabs.app/blog/confluence-page-approval-workflow/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Confluence page approval: how to set up a review and sign-off workflow | Loopwise Labs">
+<meta property="og:description" content="How to get Confluence pages reviewed and approved, keep an audit trail for ISO or SOC 2, and know when an approved page has changed.">
+<meta property="og:url" content="https://loopwiselabs.app/blog/confluence-page-approval-workflow/">
+<meta property="og:image" content="https://loopwiselabs.app/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/style.css?v=4322efa8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Confluence page approval: how to set up a review and sign-off workflow","datePublished":"2026-11-26","dateModified":"2026-11-26","description":"How to get Confluence pages reviewed and approved, keep an audit trail for ISO or SOC 2, and know when an approved page has changed.","author":{"@type":"Organization","name":"Loopwise Labs"},"mainEntityOfPage":"https://loopwiselabs.app/blog/confluence-page-approval-workflow/"}</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "792daecac342490b94ee892968cf1024"}'></script>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="/"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="" width="28" height="28">Loopwise Labs</a>
+  <nav><a href="/#apps">Apps</a><a href="/services/">Custom apps</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<article class="prose post">
+<p class="meta"><a href="/blog/">Blog</a> · November 2026 · 5 min read</p>
+<h1>Confluence page approval: how to set up a review and sign-off workflow</h1>
+
+<p class="lead">Policies, procedures and release notes often need a named person to approve them before they count. In audits (ISO 27001, SOC 2, GxP) you also need to show <em>who</em> approved <em>which version</em>, and that nobody changed the page afterwards. Here is what Confluence Cloud gives you, and where it stops.</p>
+
+<h2>What Confluence offers on its own</h2>
+<ul>
+  <li><strong>Page status</strong> (for example "In progress", "Ready for review", "Verified"). This is a label anyone with edit rights can set. It does not record an approver and does not reset when the page changes.</li>
+  <li><strong>Restrictions:</strong> you can limit who may edit a page, which keeps drafts safe but is not an approval.</li>
+  <li><strong>Comments and @mentions:</strong> reviewers can say "approved" in a comment. That works for small teams, but there is no overview and no link to the version that was approved.</li>
+  <li><strong>Page history:</strong> shows every version, but you have to match versions to approvals yourself.</li>
+  <li><strong>Native Approvals (beta, Premium and Enterprise only):</strong> Atlassian is rolling out built-in page approvals on the higher plans. They require <em>every</em> approver to sign off (there is no "any one of them" option), and they are not available on Free or Standard. If you are on Premium, try them first.</li>
+</ul>
+
+<h2>What an approval workflow needs</h2>
+<ol>
+  <li><strong>Named approvers</strong>, with a rule: everyone must approve, or any one of them.</li>
+  <li><strong>A visible status</strong> on the page: pending, approved, changes requested.</li>
+  <li><strong>Approval tied to a version:</strong> if the page changes after approval, the approval is no longer valid.</li>
+  <li><strong>An audit trail:</strong> who decided, when, on which version, with their comment.</li>
+  <li><strong>An overview:</strong> what is waiting for me, and what is outdated.</li>
+</ol>
+
+<h2>Setting it up with Page Approval for Confluence</h2>
+<p><a href="/page-approval/">Page Approval for Confluence</a> adds exactly these pieces on any Confluence plan, including Standard:</p>
+<ol>
+  <li>Open a page and choose <strong>Request approval</strong> next to the author name.</li>
+  <li>Pick the approvers, choose <em>all</em> or <em>any</em>, and optionally set a due date. Approvers are notified through normal Confluence @mentions.</li>
+  <li>Approvers <strong>approve</strong> or <strong>request changes</strong> right on the page, with a comment.</li>
+  <li>The status shows next to the author: <em>Approval pending 1/2</em>, <em>Approved v5</em> or <em>Changes requested</em>.</li>
+  <li>When someone publishes v6, the page shows <strong>Approval outdated</strong>. If the page changes during a review, earlier decisions are reset, so nobody approves text they haven't seen.</li>
+  <li>Each space gets an <strong>Approvals</strong> page with a "Waiting for me" list and every request with its full history.</li>
+</ol>
+<p>Status labels also work in Confluence search and CQL, so you can build a report of every approved, or outdated, policy page.</p>
+
+<h2>Tips for audits</h2>
+<ul>
+  <li>Use default approvers per space (for example the policy owner) so nobody forgets to add them.</li>
+  <li>Before an audit, search for <em>Approval outdated</em> to find pages that changed since sign-off.</li>
+  <li>Use the space's Approvals page as evidence of review: every decision is listed with its page version.</li>
+</ul>
+
+</article>
+
+<section class="cta-band">
+  <h2>Page Approval for Confluence</h2>
+  <p>Get pages approved by the right people, with approvals that expire when the page changes. Free for up to 10 users, and it runs entirely on Atlassian.</p>
+  <div class="actions"><a class="btn" href="https://marketplace.atlassian.com/apps/3569242819">Get it on the Atlassian Marketplace</a><a class="btn ghost" href="/page-approval/">How it works</a></div>
+</section>
+
+</div></main>
+<footer><div class="wrap">
+  <div class="foot-grid">
+    <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
+    <div><strong>Apps</strong><a href="/recurring-issues/">Recurring Issues</a><a href="/epic-progress/">Epic Progress</a><a href="/issue-templates/">Issue Templates</a><a href="/sprint-capacity/">Sprint Capacity</a><a href="/burndown/">Sprint Burndown &amp; Burnup</a><a href="/cascading-select/">Cascading Select</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/gantt/">Gantt Chart</a><a href="/capacity-planner/">Capacity Planner</a><a href="/page-approval/">Page Approval</a></div>
+    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/blog/">Blog</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/security/">Security</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:support@loopwiselabs.app">support@loopwiselabs.app</a></div>
+  </div>
+  <p class="legal">© 2026 Loopwise Labs · Filip Code, Serbia · MB 65422174 · PIB 111454976</p>
+</div></footer>
+</body>
+</html>

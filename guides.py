@@ -56,9 +56,9 @@ GUIDES = [
     {
         "slug": "confluence-page-approval-workflow",
         "app": "page-approval",
-        "live": False,
+        "live": True,
         "title": "Confluence page approval: how to set up a review and sign-off workflow",
-        "date": "December 2026", "iso": "2026-12-01", "minutes": 5,
+        "date": "November 2026", "iso": "2026-11-26", "minutes": 5,
         "desc": "How to get Confluence pages reviewed and approved, keep an audit trail for ISO or SOC 2, and know when an approved page has changed.",
         "body": """
 <p class="lead">Policies, procedures and release notes often need a named person to approve them before they count. In audits (ISO 27001, SOC 2, GxP) you also need to show <em>who</em> approved <em>which version</em>, and that nobody changed the page afterwards. Here is what Confluence Cloud gives you, and where it stops.</p>
