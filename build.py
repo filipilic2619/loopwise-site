@@ -586,8 +586,9 @@ page("support/index.html", "Support | Loopwise Labs", "Get help with Loopwise La
 <p class="lead">Email us and a developer will answer, usually within 2 business days.</p>
 <div class="card">
   <h3><a href="mailto:{EMAIL}">{EMAIL}</a></h3>
-  <p>To help us help you, please include your Atlassian site URL (e.g. <code>yourteam.atlassian.net</code>), the app name, what you expected, and what happened. A screenshot of the rule helps a lot.</p>
+  <p>To help us help you, please include your Atlassian site URL (e.g. <code>yourteam.atlassian.net</code>), the app name, what you expected, and what happened. A screenshot helps a lot.</p>
 </div>
+<p><strong>Support hours:</strong> Monday to Friday, 09:00 to 17:00 CET (UTC+1), except public holidays.</p>
 <p>Security issue? Write to the same address with "SECURITY" in the subject.</p>
 """)
 
