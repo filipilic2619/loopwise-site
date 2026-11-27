@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to track project costs and budgets in Jira (without Tempo) | Loopwise Labs</title>
+<meta name="description" content="Jira tracks hours, not money. Here is how to turn Jira worklogs into project costs and budgets: with a spreadsheet, with Tempo, or with a lightweight cost app.">
+<link rel="canonical" href="https://loopwiselabs.app/blog/jira-project-cost-tracking-without-tempo/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="How to track project costs and budgets in Jira (without Tempo) | Loopwise Labs">
+<meta property="og:description" content="Jira tracks hours, not money. Here is how to turn Jira worklogs into project costs and budgets: with a spreadsheet, with Tempo, or with a lightweight cost app.">
+<meta property="og:url" content="https://loopwiselabs.app/blog/jira-project-cost-tracking-without-tempo/">
+<meta property="og:image" content="https://loopwiselabs.app/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/style.css?v=7838d0d5">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to track project costs and budgets in Jira (without Tempo)","datePublished":"2026-11-27","dateModified":"2026-11-27","description":"Jira tracks hours, not money. Here is how to turn Jira worklogs into project costs and budgets: with a spreadsheet, with Tempo, or with a lightweight cost app.","author":{"@type":"Organization","name":"Loopwise Labs"},"mainEntityOfPage":"https://loopwiselabs.app/blog/jira-project-cost-tracking-without-tempo/"}</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "792daecac342490b94ee892968cf1024"}'></script>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="/"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="" width="28" height="28">Loopwise Labs</a>
+  <nav><a href="/#apps">Apps</a><a href="/services/">Custom apps</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<article class="prose post">
+<p class="meta"><a href="/blog/">Blog</a> · November 2026 · 6 min read</p>
+<h1>How to track project costs and budgets in Jira (without Tempo)</h1>
+
+<p class="lead">Jira knows how many hours your team logged, but not what those hours cost. When someone asks "how much has this project cost so far, and will we stay within budget?", you need hourly rates, a budget and a forecast on top of Jira's time tracking.</p>
+
+<h2>What Jira gives you out of the box</h2>
+<ul>
+  <li><strong>Worklogs:</strong> time logged on each issue, by person and date.</li>
+  <li><strong>Original and remaining estimates:</strong> how much work is planned and left.</li>
+  <li><strong>Time tracking reports</strong> in some project types, in hours only.</li>
+</ul>
+<p>There are no rates, no money and no budgets.</p>
+
+<h2>Option 1: Export worklogs to a spreadsheet</h2>
+<p>Export the issues and their time spent with a JQL search (CSV), add a rate per person in a second sheet, and multiply.</p>
+<p><strong>Good for:</strong> a one-off answer.</p>
+<p><strong>Watch out for:</strong> it is manual every time, the issue export gives total time per issue rather than who logged what and when, and rates that change over time make the formulas fragile. The numbers are out of date the moment you save the file.</p>
+
+<h2>Option 2: Tempo</h2>
+<p>Tempo Timesheets with a financial add-on is the classic answer for larger organisations. It is powerful, but it means moving your team to Tempo's timesheets, and paying for several products per user.</p>
+
+<h2>Option 3: A cost app on top of Jira's own worklogs</h2>
+<p>If your team already logs time in Jira, a lightweight cost app can read those worklogs directly. <a href="/cost-tracker/">Cost &amp; Budget Tracker for Jira</a> is ours:</p>
+<ul>
+  <li><strong>Hourly rates per person</strong>, each with the date it starts, so past work keeps its old price after a raise.</li>
+  <li><strong>Budgets</strong> for a project, several projects or any JQL, with an optional period.</li>
+  <li><strong>Spent, forecast and remaining:</strong> the forecast adds remaining estimates at each assignee's rate, with On track or Over budget status.</li>
+  <li><strong>A Costs page in every project:</strong> cost per person, per month and per epic.</li>
+  <li><strong>Private by default:</strong> only Jira admins and the people they choose see rates and amounts.</li>
+</ul>
+<p>No Tempo and no new timesheets: it uses the worklogs you already have.</p>
+
+<h2>Tips for reliable numbers</h2>
+<ul>
+  <li>Ask everyone to log time on the issue they worked on, not on one "general" ticket.</li>
+  <li>Keep remaining estimates current, or the forecast is only as good as the last update.</li>
+  <li>Set rates with start dates instead of editing old rates, so historic costs don't change.</li>
+</ul>
+
+</article>
+
+<section class="cta-band">
+  <h2>Cost &amp; Budget Tracker for Jira</h2>
+  <p>Turn Jira time into money: hourly rates per person, project budgets and what&#x27;s left. Free for up to 10 users, and it runs entirely on Atlassian.</p>
+  <div class="actions"><a class="btn" href="/cost-tracker/">Coming soon: see how it works</a><a class="btn ghost" href="mailto:support@loopwiselabs.app?subject=Cost &amp; Budget Tracker%20early%20access">Get early access</a></div>
+</section>
+
+</div></main>
+<footer><div class="wrap">
+  <div class="foot-grid">
+    <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
+    <div><strong>Apps</strong><div class="foot-apps"><a href="/recurring-issues/">Recurring Issues</a><a href="/epic-progress/">Epic Progress</a><a href="/issue-templates/">Issue Templates</a><a href="/sprint-capacity/">Sprint Capacity</a><a href="/burndown/">Sprint Burndown &amp; Burnup</a><a href="/cascading-select/">Cascading Select</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/gantt/">Gantt Chart</a><a href="/capacity-planner/">Capacity Planner</a><a href="/page-approval/">Page Approval</a><a href="/cost-tracker/">Cost &amp; Budget Tracker</a><a href="/markdown-confluence/">Markdown</a><a href="/roadmaps/">Roadmaps</a><a href="/issue-export/">Issue Export (PDF &amp; Word)</a><a href="/grid-field/">Grid Field</a><a href="/read-confirmations/">Read Confirmations</a><a href="/forums/">Forums</a><a href="/planning-poker/">Planning Poker</a><a href="/crm/">CRM</a><a href="/confluence-export/">Page Export for Confluence (PDF &amp; Word)</a></div></div>
+    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/blog/">Blog</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/security/">Security</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:support@loopwiselabs.app">support@loopwiselabs.app</a></div>
+  </div>
+  <p class="legal">© 2026 Loopwise Labs · Filip Code, Serbia · MB 65422174 · PIB 111454976</p>
+</div></footer>
+</body>
+</html>

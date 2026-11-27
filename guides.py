@@ -194,7 +194,7 @@ North America
     {
         "slug": "export-jira-issues-to-pdf-word",
         "app": "issue-export",
-        "live": False,
+        "live": True,
         "title": "How to export Jira issues to PDF or Word (one issue or a whole list)",
         "date": "November 2026", "iso": "2026-11-27", "minutes": 5,
         "desc": "Ways to export a Jira Cloud issue, or the result of a JQL search, to PDF or Word: built-in options, their limits, and when an export app is worth it.",
@@ -236,7 +236,7 @@ North America
     {
         "slug": "jira-project-cost-tracking-without-tempo",
         "app": "cost-tracker",
-        "live": False,
+        "live": True,
         "title": "How to track project costs and budgets in Jira (without Tempo)",
         "date": "November 2026", "iso": "2026-11-27", "minutes": 6,
         "desc": "Jira tracks hours, not money. Here is how to turn Jira worklogs into project costs and budgets: with a spreadsheet, with Tempo, or with a lightweight cost app.",
@@ -281,7 +281,7 @@ North America
     {
         "slug": "questions-for-confluence-alternative",
         "app": "qa-for-confluence",
-        "live": False,
+        "live": True,
         "title": "Looking for a Questions for Confluence alternative?",
         "date": "November 2026", "iso": "2026-11-27", "minutes": 4,
         "desc": "What to look for in a Q&A app for Confluence Cloud, and how to move your team's questions and answers to an app built on regular Confluence pages.",
@@ -321,7 +321,7 @@ North America
     {
         "slug": "jira-gantt-chart-multiple-projects",
         "app": "gantt",
-        "live": False,
+        "live": True,
         "title": "Gantt chart for multiple Jira projects: your options in Jira Cloud",
         "date": "November 2026", "iso": "2026-11-27", "minutes": 5,
         "desc": "How to see issues from several Jira Cloud projects on one Gantt chart with dependencies: Timeline, Plans (Premium) and Gantt apps compared.",

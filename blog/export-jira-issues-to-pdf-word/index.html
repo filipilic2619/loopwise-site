@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to export Jira issues to PDF or Word (one issue or a whole list) | Loopwise Labs</title>
+<meta name="description" content="Ways to export a Jira Cloud issue, or the result of a JQL search, to PDF or Word: built-in options, their limits, and when an export app is worth it.">
+<link rel="canonical" href="https://loopwiselabs.app/blog/export-jira-issues-to-pdf-word/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="How to export Jira issues to PDF or Word (one issue or a whole list) | Loopwise Labs">
+<meta property="og:description" content="Ways to export a Jira Cloud issue, or the result of a JQL search, to PDF or Word: built-in options, their limits, and when an export app is worth it.">
+<meta property="og:url" content="https://loopwiselabs.app/blog/export-jira-issues-to-pdf-word/">
+<meta property="og:image" content="https://loopwiselabs.app/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/style.css?v=7838d0d5">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to export Jira issues to PDF or Word (one issue or a whole list)","datePublished":"2026-11-27","dateModified":"2026-11-27","description":"Ways to export a Jira Cloud issue, or the result of a JQL search, to PDF or Word: built-in options, their limits, and when an export app is worth it.","author":{"@type":"Organization","name":"Loopwise Labs"},"mainEntityOfPage":"https://loopwiselabs.app/blog/export-jira-issues-to-pdf-word/"}</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "792daecac342490b94ee892968cf1024"}'></script>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="/"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="" width="28" height="28">Loopwise Labs</a>
+  <nav><a href="/#apps">Apps</a><a href="/services/">Custom apps</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<article class="prose post">
+<p class="meta"><a href="/blog/">Blog</a> · November 2026 · 5 min read</p>
+<h1>How to export Jira issues to PDF or Word (one issue or a whole list)</h1>
+
+<p class="lead">A customer wants a report of the open bugs, an auditor wants the change request with every comment, or a manager wants the sprint scope as a Word document. Jira Cloud has a few built-in ways to get issues out, and each has limits worth knowing before you promise a document.</p>
+
+<h2>Option 1: Print one issue to PDF</h2>
+<p>Open the issue, choose <strong>••• → Print</strong>, and in the print dialog pick <strong>Save as PDF</strong>.</p>
+<p><strong>Good for:</strong> a quick copy of a single issue.</p>
+<p><strong>Watch out for:</strong> the layout follows the browser, long descriptions and tables often break across pages, and you get one issue at a time.</p>
+
+<h2>Option 2: The built-in Word export</h2>
+<p>On an issue, <strong>••• → Export Word</strong> downloads a .doc file with the issue's fields and description.</p>
+<p><strong>Watch out for:</strong> it is an older HTML-based format, so Word may warn when opening it, formatting of tables and code blocks is basic, and sub-tasks and comments are limited.</p>
+
+<h2>Option 3: Export a search to CSV or Excel</h2>
+<p>Run a JQL search in <strong>Filters</strong>, then use <strong>Export</strong> to download CSV with all or the current fields. Open it in Excel or Google Sheets and format it there.</p>
+<p><strong>Good for:</strong> data you want to analyse.</p>
+<p><strong>Watch out for:</strong> it is a spreadsheet, not a document. Rich text (headings, lists, tables in the description) arrives as markup, and you have to build the report yourself every time.</p>
+
+<h2>Option 4: An export app</h2>
+<p>An export app turns issues into documents in one click. <a href="/issue-export/">Issue Export for Jira (PDF &amp; Word)</a> is ours:</p>
+<ul>
+  <li><strong>One issue, complete:</strong> details, the full rich-text description (headings, lists, tables, code, panels), sub-tasks and comments.</li>
+  <li><strong>Any JQL as a table:</strong> choose the columns, up to 1,000 issues, landscape when there are many columns; or one page per issue.</li>
+  <li><strong>PDF or real .docx</strong> that opens cleanly in Word.</li>
+  <li><strong>Download or attach</strong> the file to the issue as a record.</li>
+  <li>Documents are made in your browser with your Jira permissions, and the app stores nothing.</li>
+</ul>
+
+<h2>Which one should you use?</h2>
+<ul>
+  <li><strong>One issue, once in a while:</strong> Print to PDF is enough.</li>
+  <li><strong>Data for analysis:</strong> CSV export.</li>
+  <li><strong>Documents you send to customers, auditors or managers, regularly:</strong> an export app saves the formatting work every time.</li>
+</ul>
+
+</article>
+
+<section class="cta-band">
+  <h2>Issue Export (PDF &amp; Word) for Jira</h2>
+  <p>Export Jira issues to PDF and Word: one issue in full, or any JQL as a table. Free for up to 10 users, and it runs entirely on Atlassian.</p>
+  <div class="actions"><a class="btn" href="/issue-export/">Coming soon: see how it works</a><a class="btn ghost" href="mailto:support@loopwiselabs.app?subject=Issue Export (PDF &amp; Word)%20early%20access">Get early access</a></div>
+</section>
+
+</div></main>
+<footer><div class="wrap">
+  <div class="foot-grid">
+    <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
+    <div><strong>Apps</strong><div class="foot-apps"><a href="/recurring-issues/">Recurring Issues</a><a href="/epic-progress/">Epic Progress</a><a href="/issue-templates/">Issue Templates</a><a href="/sprint-capacity/">Sprint Capacity</a><a href="/burndown/">Sprint Burndown &amp; Burnup</a><a href="/cascading-select/">Cascading Select</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/gantt/">Gantt Chart</a><a href="/capacity-planner/">Capacity Planner</a><a href="/page-approval/">Page Approval</a><a href="/cost-tracker/">Cost &amp; Budget Tracker</a><a href="/markdown-confluence/">Markdown</a><a href="/roadmaps/">Roadmaps</a><a href="/issue-export/">Issue Export (PDF &amp; Word)</a><a href="/grid-field/">Grid Field</a><a href="/read-confirmations/">Read Confirmations</a><a href="/forums/">Forums</a><a href="/planning-poker/">Planning Poker</a><a href="/crm/">CRM</a><a href="/confluence-export/">Page Export for Confluence (PDF &amp; Word)</a></div></div>
+    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/blog/">Blog</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/security/">Security</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:support@loopwiselabs.app">support@loopwiselabs.app</a></div>
+  </div>
+  <p class="legal">© 2026 Loopwise Labs · Filip Code, Serbia · MB 65422174 · PIB 111454976</p>
+</div></footer>
+</body>
+</html>
