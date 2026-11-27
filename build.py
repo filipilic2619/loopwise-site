@@ -68,31 +68,35 @@ ICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0
 
 
 def app_hero(slug, body):
-    """App pages: logo, title, lead, buttons and a screenshot gallery above the page text."""
+    """App pages: logo, title, lead and buttons beside the first screenshot; more screenshots and the page text below."""
     _, name, product, short, captions, url = APP_BY_SLUG[slug]
     h1 = re.search(r"<h1>(.*?)</h1>", body, re.S).group(1)
     lead = re.search(r'<p class="lead">(.*?)</p>', body, re.S).group(1)
     rest = re.sub(r'^\s*<div class="pill">.*?</div>\s*<h1>.*?</h1>\s*<p class="lead">.*?</p>', "", body, count=1, flags=re.S)
+    # Feature cards show the title on its own line, so drop the colon and capitalise the description.
+    rest = re.sub(r'(<li><strong>[^<]*?):</strong>(\s*)([a-z])', lambda m: m.group(1) + '</strong>' + m.group(2) + m.group(3).upper(), rest)
+    rest = re.sub(r'(<li><strong>[^<]*?):</strong>', r'\1</strong>', rest)
     soon = slug in SOON
-    cta = (f'<span class="btn soon">Coming soon to the Atlassian Marketplace</span><a class="btn ghost" href="mailto:{EMAIL}?subject={escape(name)}%20early%20access">Get early access</a>' if soon
-           else f'<a class="btn" href="{url}">Get it on the Atlassian Marketplace</a>' if url
-           else f'<a class="btn" href="{MARKETPLACE}">Find it on the Atlassian Marketplace</a>')
-    captions = [c for i, c in enumerate(captions, 1) if (ROOT / f"assets/apps/{slug}/shot-{i}.jpg").exists()]
-    shots = "".join(
-        f'<figure><a href="/assets/apps/{slug}/shot-{i}.jpg"><img src="/assets/apps/{slug}/shot-{i}.jpg" alt="{escape(c)}"></a>'
-        f'<figcaption>{escape(c)}</figcaption></figure>'
-        for i, c in enumerate(captions, 1))
+    cta = (f'<span class="btn soon">Coming soon to the Marketplace</span><a class="btn ghost" href="mailto:{EMAIL}?subject={escape(name)}%20early%20access">Get early access</a>' if soon
+           else f'<a class="btn" href="{url}">Get it on the Atlassian Marketplace</a><a class="btn ghost" href="/support/">Questions? Contact support</a>' if url
+           else f'<a class="btn" href="{MARKETPLACE}">Find it on the Atlassian Marketplace</a><a class="btn ghost" href="/support/">Questions? Contact support</a>')
+    shots = [(i, c) for i, c in enumerate(captions, 1) if (ROOT / f"assets/apps/{slug}/shot-{i}.jpg").exists()]
+    first = (f'<div class="app-shot"><a href="/assets/apps/{slug}/shot-{shots[0][0]}.jpg"><img src="/assets/apps/{slug}/shot-{shots[0][0]}.jpg" alt="{escape(shots[0][1])}"></a></div>'
+             if shots else "")
+    gallery = "".join(
+        f'<figure><a href="/assets/apps/{slug}/shot-{i}.jpg"><img src="/assets/apps/{slug}/shot-{i}.jpg" alt="{escape(c)}" loading="lazy"></a>'
+        f'<figcaption>{escape(c)}</figcaption></figure>' for i, c in shots[1:])  # the first one is beside the title
     return f"""
 <section class="app-hero">
-  <img class="app-logo" src="/assets/apps/{slug}/logo.png" alt="" width="72" height="72">
   <div>
-    <div class="pill">{product} Cloud app · Runs on Atlassian</div>{' <div class="pill soon">Coming soon</div>' if soon else ''}
+    <div class="head"><img class="app-logo" src="/assets/apps/{slug}/logo.png" alt="" width="64" height="64"><div><span class="pill">{product} Cloud app · Runs on Atlassian</span>{' <span class="pill soon">Coming soon</span>' if soon else ''}</div></div>
     <h1>{h1}</h1>
     <p class="lead">{lead}</p>
-    <div class="actions">{cta}<a class="btn ghost" href="/support/">Questions? Contact support</a></div>
+    <div class="actions">{cta}</div>
   </div>
+  {first}
 </section>
-{f'<div class="gallery">{shots}</div>' if shots else ''}
+{f'<div class="gallery two">{gallery}</div>' if len(shots) > 1 else ''}
 <div class="prose">{rest}</div>
 """
 
@@ -140,7 +144,7 @@ def page(path, title, description, body, extra_head=""):
 <footer><div class="wrap{' wide' if wide else ''}">
   <div class="foot-grid">
     <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
-    <div><strong>Apps</strong>{''.join(f'<a href="/{a[0]}/">{escape(a[1])}</a>' for a in APPS)}</div>
+    <div><strong>Apps</strong><div class="foot-apps">{''.join(f'<a href="/{a[0]}/">{escape(a[1])}</a>' for a in APPS)}</div></div>
     <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/blog/">Blog</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/security/">Security</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:{EMAIL}">{EMAIL}</a></div>
   </div>
   <p class="legal">© 2026 Loopwise Labs · {SHORT_ENTITY}</p>
@@ -153,36 +157,58 @@ def page(path, title, description, body, extra_head=""):
     out.write_text(html, encoding="utf-8")
 
 
-def app_cards(product):
+def shot(slug, n=1):
+    return (ROOT / f"assets/apps/{slug}/shot-{n}.jpg").exists()
+
+
+def live_cards():
     return "".join(f"""
   <a class="app-card" href="/{slug}/">
-    <img src="/assets/apps/{slug}/logo.png" alt="" width="56" height="56" loading="lazy">
-    <div><h3>{escape(name)}{' <span class="soon-tag">Coming soon</span>' if slug in SOON else ''}</h3><p>{escape(short)}</p><span class="more">Learn more →</span></div>
-  </a>""" for slug, name, prod, short, *_ in sorted(APPS, key=lambda x: x[0] in SOON) if prod == product)
+    {f'<div class="thumb"><img src="/assets/apps/{slug}/shot-1.jpg" alt="" loading="lazy"></div>' if shot(slug) else ''}
+    <div class="body"><img src="/assets/apps/{slug}/logo.png" alt="" width="44" height="44" loading="lazy">
+      <div><h3>{escape(name)}<span class="tag {prod.lower()}">{prod}</span></h3><p>{escape(short)}</p><span class="more">Learn more →</span></div></div>
+  </a>""" for slug, name, prod, short, *_ in APPS if slug in LIVE)
 
 
+def soon_cards():
+    return "".join(f"""
+  <a class="soon-card" href="/{slug}/"><img src="/assets/apps/{slug}/logo.png" alt="" width="40" height="40" loading="lazy">
+    <div><strong>{escape(name)}<span class="tag {prod.lower()}">{prod}</span></strong><span>{escape(short)}</span></div></a>""" for slug, name, prod, short, *_ in APPS if slug in SOON)
+
+
+COLLAGE = [s for s in ["gantt", "roadmaps", "capacity-planner", "cost-tracker"] if shot(s)][:3]
 page("index.html", "Loopwise Labs | Apps for Jira and Confluence Cloud",
-     "Small, reliable Atlassian Marketplace apps for Jira and Confluence Cloud: recurring issues, epic progress, issue templates, sprint capacity, Q&A, page approvals and more.", f"""
-<section class="hero">
-  <div class="pill">Built on Atlassian Forge · Runs on Atlassian</div>
-  <h1>Small, reliable apps for Jira and Confluence.</h1>
-  <p class="lead">Loopwise Labs builds focused apps that take repetitive work off your team's plate. Each one does one job well, runs entirely on Atlassian's infrastructure and is free for up to 10 users.</p>
-  <div class="actions"><a class="btn" href="#apps">See the apps</a><a class="btn ghost" href="/support/">Talk to us</a></div>
+     "Small, reliable Atlassian Marketplace apps for Jira and Confluence Cloud: Gantt charts, capacity planning, cost tracking, Q&A, page approvals, PDF export and more.", f"""
+<section class="home-hero">
+  <div>
+    <div class="pill">Built on Atlassian Forge · Runs on Atlassian</div>
+    <h1>Small, reliable apps for Jira and Confluence.</h1>
+    <p class="lead">Focused apps that take repetitive work off your team's plate. Each one does one job well, runs entirely on Atlassian's infrastructure and is free for up to 10 users.</p>
+    <div class="actions"><a class="btn" href="#apps">Browse the apps</a><a class="btn ghost" href="/support/">Talk to us</a></div>
+    <div class="hero-stats">
+      <div><strong>{len(APPS)}</strong>apps</div>
+      <div><strong>{len(LIVE)}</strong>on the Marketplace</div>
+      <div><strong>Free</strong>up to 10 users</div>
+    </div>
+  </div>
+  <div class="collage">{"".join(f'<img src="/assets/apps/{s}/shot-1.jpg" alt="">' for s in COLLAGE)}</div>
 </section>
 
 <section class="trust">
-  <div><strong>Runs on Atlassian</strong><span>Your data stays in your Atlassian site. No outside servers.</span></div>
-  <div><strong>Free for small teams</strong><span>Every app is free for up to 10 users.</span></div>
-  <div><strong>GDPR ready</strong><span>Data processing agreement included, closed accounts removed automatically.</span></div>
-  <div><strong>Real support</strong><span>A developer answers, usually within 2 business days.</span></div>
+  <div><div class="ico">🛡️</div><strong>Runs on Atlassian</strong><span>Your data stays in your Atlassian site. No outside servers.</span></div>
+  <div><div class="ico">🎁</div><strong>Free for small teams</strong><span>Every app is free for up to 10 users.</span></div>
+  <div><div class="ico">🇪🇺</div><strong>GDPR ready</strong><span>Data processing agreement included, closed accounts removed automatically.</span></div>
+  <div><div class="ico">💬</div><strong>Real support</strong><span>A developer answers, usually within 2 business days.</span></div>
 </section>
 
 <section id="apps">
-  <h2>Jira apps</h2>
-  <div class="app-grid">{app_cards("Jira")}
+  <h2>Available on the Marketplace</h2>
+  <p class="section-lead">Install from the Atlassian Marketplace and try any app free for 30 days.</p>
+  <div class="app-grid">{live_cards()}
   </div>
-  <h2>Confluence apps</h2>
-  <div class="app-grid">{app_cards("Confluence")}
+  <h2>Coming soon</h2>
+  <p class="section-lead">In Atlassian's review now. Want one early? <a href="mailto:{EMAIL}">Email us</a> and we'll set you up.</p>
+  <div class="soon-grid">{soon_cards()}
   </div>
 </section>
 
