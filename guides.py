@@ -5,9 +5,9 @@ GUIDES = [
     {
         "slug": "recurring-issues-jira-cloud",
         "app": "recurring-issues",
-        "live": False,
+        "live": True,
         "title": "How to create recurring issues in Jira Cloud",
-        "date": "December 2026", "iso": "2026-12-01", "minutes": 5,
+        "date": "November 2026", "iso": "2026-11-27", "minutes": 5,
         "desc": "Three ways to create repeating Jira issues on a schedule (daily standups, weekly reports, monthly reviews), and when each one fits.",
         "body": """
 <p class="lead">Jira Cloud has no "repeat this issue" button. If your team has a weekly report, a monthly access review or a daily standup ticket, someone has to remember to create it, or you set it up once with one of the three options below.</p>

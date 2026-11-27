@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to create recurring issues in Jira Cloud | Loopwise Labs</title>
+<meta name="description" content="Three ways to create repeating Jira issues on a schedule (daily standups, weekly reports, monthly reviews), and when each one fits.">
+<link rel="canonical" href="https://loopwiselabs.app/blog/recurring-issues-jira-cloud/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="How to create recurring issues in Jira Cloud | Loopwise Labs">
+<meta property="og:description" content="Three ways to create repeating Jira issues on a schedule (daily standups, weekly reports, monthly reviews), and when each one fits.">
+<meta property="og:url" content="https://loopwiselabs.app/blog/recurring-issues-jira-cloud/">
+<meta property="og:image" content="https://loopwiselabs.app/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/style.css?v=aac7e42c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to create recurring issues in Jira Cloud","datePublished":"2026-11-27","dateModified":"2026-11-27","description":"Three ways to create repeating Jira issues on a schedule (daily standups, weekly reports, monthly reviews), and when each one fits.","author":{"@type":"Organization","name":"Loopwise Labs"},"mainEntityOfPage":"https://loopwiselabs.app/blog/recurring-issues-jira-cloud/"}</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "792daecac342490b94ee892968cf1024"}'></script>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="/"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="" width="28" height="28">Loopwise Labs</a>
+  <nav><a href="/#apps">Apps</a><a href="/services/">Custom apps</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<article class="prose post">
+<p class="meta"><a href="/blog/">Blog</a> · November 2026 · 5 min read</p>
+<h1>How to create recurring issues in Jira Cloud</h1>
+
+<p class="lead">Jira Cloud has no "repeat this issue" button. If your team has a weekly report, a monthly access review or a daily standup ticket, someone has to remember to create it, or you set it up once with one of the three options below.</p>
+
+<h2>Option 1: Jira Automation with a scheduled trigger</h2>
+<p>Jira's built-in automation can create an issue on a schedule.</p>
+<ol>
+  <li>Go to <strong>Project settings → Automation</strong> and choose <strong>Create rule</strong>.</li>
+  <li>Pick the <strong>Scheduled</strong> trigger and set the interval, for example every Monday at 09:00. For anything more specific, use a cron expression.</li>
+  <li>Add the action <strong>Create issue</strong> and fill in the summary, issue type and assignee. Smart values such as <code>{{now.format("yyyy-MM-dd")}}</code> add the date to the title.</li>
+  <li>Turn the rule on.</li>
+</ol>
+<p><strong>Good for:</strong> one or two simple schedules in a single project.</p>
+<p><strong>Watch out for:</strong></p>
+<ul>
+  <li>Every run counts toward your plan's monthly automation limit.</li>
+  <li>Schedules beyond "every N days" need cron syntax.</li>
+  <li>The new issue is not added to the active sprint unless you add more steps.</li>
+  <li>With many rules it is hard to see which schedule creates what.</li>
+</ul>
+
+<h2>Option 2: Clone a template issue</h2>
+<p>Keep one "template" issue per routine task and clone it when needed: manually, or with an automation rule that clones it on a schedule. Cloning copies the description, labels and sub-tasks.</p>
+<p><strong>Good for:</strong> routine work with a long checklist of sub-tasks.</p>
+<p><strong>Watch out for:</strong> template issues show up in searches and boards unless you hide them, and you still need a schedule (option 1) or a person to do the cloning.</p>
+
+<h2>Option 3: A recurring-issues app</h2>
+<p>A dedicated app keeps every schedule in one list and handles the details the other options leave to you.</p>
+<p><a href="/recurring-issues/">Recurring Issues for Jira</a> is ours:</p>
+<ul>
+  <li><strong>Plain-language schedules:</strong> every weekday, every second Monday, the last day of the month. A preview shows the next five runs, so no cron is needed.</li>
+  <li><strong>Time zone per rule:</strong> 09:00 stays 09:00 after daylight saving changes.</li>
+  <li><strong>Sprint-aware:</strong> new issues can go straight into the active sprint, and the previous unfinished copy can be closed automatically.</li>
+  <li><strong>Placeholders</strong> such as <code>{{date}}</code>, <code>{{weekday}}</code> and <code>{{week}}</code> in titles and descriptions.</li>
+</ul>
+<p>It runs entirely on Atlassian and does not use your automation limit.</p>
+
+<h2>Which one should you use?</h2>
+<ul>
+  <li><strong>One simple weekly issue:</strong> Jira Automation is enough.</li>
+  <li><strong>A long checklist that repeats:</strong> clone a template issue, or use <a href="/issue-templates/">Issue Templates</a>.</li>
+  <li><strong>Many schedules, several teams or time zones, sprint-based work:</strong> a recurring-issues app saves time and avoids missed tickets.</li>
+</ul>
+
+</article>
+
+<section class="cta-band">
+  <h2>Recurring Issues for Jira</h2>
+  <p>Create Jira issues on a schedule, in your time zone and your sprint, with no cron. Free for up to 10 users, and it runs entirely on Atlassian.</p>
+  <div class="actions"><a class="btn" href="https://marketplace.atlassian.com/apps/2150623549">Get it on the Atlassian Marketplace</a><a class="btn ghost" href="/recurring-issues/">How it works</a></div>
+</section>
+
+</div></main>
+<footer><div class="wrap">
+  <div class="foot-grid">
+    <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
+    <div><strong>Apps</strong><div class="foot-apps"><a href="/recurring-issues/">Recurring Issues</a><a href="/epic-progress/">Epic Progress</a><a href="/issue-templates/">Issue Templates</a><a href="/sprint-capacity/">Sprint Capacity</a><a href="/burndown/">Sprint Burndown &amp; Burnup</a><a href="/cascading-select/">Cascading Select</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/page-approval/">Page Approval</a></div><a class="foot-all" href="/#apps">All 20 apps →</a></div>
+    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/blog/">Blog</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/security/">Security</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:support@loopwiselabs.app">support@loopwiselabs.app</a></div>
+  </div>
+  <p class="legal">© 2026 Loopwise Labs · Filip Code, Serbia · MB 65422174 · PIB 111454976</p>
+</div></footer>
+</body>
+</html>

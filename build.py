@@ -49,7 +49,7 @@ MP_IDS = {"recurring-issues": 2150623549, "epic-progress": 2453250247, "issue-te
           "sprint-capacity": 2833788023, "burndown": 3135809348, "cascading-select": 2817071446,
           "qa-for-confluence": 2222518940, "page-approval": 3569242819, "gantt": 582578591,
           "capacity-planner": 1453833724}
-LIVE = {"qa-for-confluence", "epic-progress", "sprint-capacity", "burndown", "issue-templates", "page-approval", "cascading-select"}
+LIVE = {"qa-for-confluence", "epic-progress", "sprint-capacity", "burndown", "issue-templates", "page-approval", "cascading-select", "recurring-issues"}
 APPS = [a[:5] + (f"https://marketplace.atlassian.com/apps/{MP_IDS[a[0]]}" if a[0] in LIVE else a[5],) for a in APPS]
 from new_apps import NEW_APPS
 NEW_BY_SLUG = {n["slug"]: n for n in NEW_APPS}
