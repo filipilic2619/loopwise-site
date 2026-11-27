@@ -193,3 +193,8 @@ ol.steps li { margin: 10px 0; }
 html, body { overflow-x: clip; }
 .foot-grid { grid-template-columns: 2fr 1.2fr 1fr; }
 .foot-all { font-weight: 600; color: var(--accent) !important; margin-top: 8px !important; }
+/* Stats: three equal columns with dividers, so the numbers line up */
+.hero-stats { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 0; }
+.hero-stats div { padding: 0 28px; border-left: 1px solid var(--line); }
+.hero-stats div:first-child { padding-left: 0; border-left: 0; }
+@media (max-width: 640px) { .hero-stats div { padding: 0 16px; } }
