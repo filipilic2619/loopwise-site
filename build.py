@@ -869,7 +869,7 @@ def app_cta(slug):
 <section class="cta-band">
   <h2>{escape(name)} for {product}</h2>
   <p>{escape(short)} Free for up to 10 users, and it runs entirely on Atlassian.</p>
-  <div class="actions"><a class="btn" href="{href}">Get it on the Atlassian Marketplace</a><a class="btn ghost" href="/{slug}/">How it works</a></div>
+  <div class="actions">{f'<a class="btn" href="/{slug}/">Coming soon: see how it works</a><a class="btn ghost" href="mailto:{EMAIL}?subject={escape(name)}%20early%20access">Get early access</a>' if slug in SOON else f'<a class="btn" href="{href}">Get it on the Atlassian Marketplace</a><a class="btn ghost" href="/{slug}/">How it works</a>'}</div>
 </section>"""
 
 
