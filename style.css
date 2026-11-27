@@ -191,3 +191,5 @@ ol.steps li { margin: 10px 0; }
 .gallery.two { grid-template-columns: repeat(2, 1fr); }
 @media (max-width: 640px) { .gallery.two { grid-template-columns: 1fr; } }
 html, body { overflow-x: clip; }
+.foot-grid { grid-template-columns: 2fr 1.2fr 1fr; }
+.foot-all { font-weight: 600; color: var(--accent) !important; margin-top: 8px !important; }

@@ -144,7 +144,7 @@ def page(path, title, description, body, extra_head=""):
 <footer><div class="wrap{' wide' if wide else ''}">
   <div class="foot-grid">
     <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
-    <div><strong>Apps</strong><div class="foot-apps">{''.join(f'<a href="/{a[0]}/">{escape(a[1])}</a>' for a in APPS)}</div></div>
+    <div><strong>Apps</strong><div class="foot-apps">{''.join(f'<a href="/{a[0]}/">{escape(a[1])}</a>' for a in APPS if a[0] in LIVE)}</div><a class="foot-all" href="/#apps">All {len(APPS)} apps →</a></div>
     <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/blog/">Blog</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/security/">Security</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:{EMAIL}">{EMAIL}</a></div>
   </div>
   <p class="legal">© 2026 Loopwise Labs · {SHORT_ENTITY}</p>
