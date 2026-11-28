@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Epic progress in Jira Cloud: % complete by story points, not just issue count | Loopwise Labs</title>
+<meta name="description" content="How to see how far an epic really is in Jira Cloud: the built-in progress bar, an automation % field, and rolling up story points and time with sub-tasks.">
+<link rel="canonical" href="https://loopwiselabs.app/blog/jira-epic-progress-percentage/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Epic progress in Jira Cloud: % complete by story points, not just issue count | Loopwise Labs">
+<meta property="og:description" content="How to see how far an epic really is in Jira Cloud: the built-in progress bar, an automation % field, and rolling up story points and time with sub-tasks.">
+<meta property="og:url" content="https://loopwiselabs.app/blog/jira-epic-progress-percentage/">
+<meta property="og:image" content="https://loopwiselabs.app/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/style.css?v=aac7e42c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Epic progress in Jira Cloud: % complete by story points, not just issue count","datePublished":"2026-11-28","dateModified":"2026-11-28","description":"How to see how far an epic really is in Jira Cloud: the built-in progress bar, an automation % field, and rolling up story points and time with sub-tasks.","author":{"@type":"Organization","name":"Loopwise Labs"},"mainEntityOfPage":"https://loopwiselabs.app/blog/jira-epic-progress-percentage/"}</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "792daecac342490b94ee892968cf1024"}'></script>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="/"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23323ea8'/%3E%3Cpath d='M9 16a7 7 0 0 1 12-5' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 16a7 7 0 0 1-12 5' stroke='%23a5b4fc' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="" width="28" height="28">Loopwise Labs</a>
+  <nav><a href="/#apps">Apps</a><a href="/services/">Custom apps</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<article class="prose post">
+<p class="meta"><a href="/blog/">Blog</a> · November 2026 · 5 min read</p>
+<h1>Epic progress in Jira Cloud: % complete by story points, not just issue count</h1>
+
+<p class="lead">"How done is this epic?" sounds like a simple question. Jira's built-in progress bar answers it by counting child issues, so an epic with nine tiny tasks done and one huge story left looks 90% finished. Here are your options in Jira Cloud, from free to fully rolled up.</p>
+
+<h2>Option 1: The built-in progress bar</h2>
+<p>Open an epic, or look at it on the project <strong>Timeline</strong>, and you see a bar split into done, in progress and to do.</p>
+<p><strong>Good for:</strong> a quick visual check.</p>
+<p><strong>Watch out for:</strong></p>
+<ul>
+  <li>It counts <strong>issues</strong>, not story points or hours, so big and small items weigh the same.</li>
+  <li>It is calculated when you look at it, not stored in a field, so you can't filter, sort or report on it.</li>
+  <li>Sub-task effort is not part of the picture.</li>
+</ul>
+
+<h2>Option 2: A "% complete" field filled by Jira Automation</h2>
+<p>Create a number field such as <em>Epic % complete</em> and a rule that recalculates it:</p>
+<ol>
+  <li><strong>Trigger:</strong> a child issue is transitioned (or a scheduled trigger once a day).</li>
+  <li><strong>Branch:</strong> to the parent epic.</li>
+  <li><strong>Action:</strong> <em>Lookup work items</em> with JQL <code>parent = {{issue.key}}</code>.</li>
+  <li><strong>Edit work item:</strong> set the field to the share of children whose status category is Done. Use story points instead of a count if you want effort, not items. Guard against epics without children so you don't divide by zero.</li>
+</ol>
+<p><strong>Good for:</strong> having a real field you can show on boards, filters and dashboards.</p>
+<p><strong>Watch out for:</strong></p>
+<ul>
+  <li>The value is only as fresh as the last rule run. Bulk edits, moved issues or a paused rule leave old numbers behind.</li>
+  <li>Each run counts toward your automation limit.</li>
+  <li>Smart-value formulas for points and time get long, and sub-tasks need another branch.</li>
+</ul>
+
+<h2>Option 3: An epic progress app</h2>
+<p>An app can roll everything up when you open the epic, so the numbers are always current. <a href="/epic-progress/">Epic Progress for Jira</a> is ours:</p>
+<ul>
+  <li><strong>Story points and issue count:</strong> % done by points and by number of issues, side by side.</li>
+  <li><strong>Time:</strong> time logged and remaining, <strong>including sub-tasks</strong> of every child.</li>
+  <li><strong>Warnings:</strong> open issues that are overdue, unassigned or not estimated are flagged.</li>
+  <li><strong>All epics of a project on one page:</strong> sort by least progress or most work left, with or without finished epics.</li>
+</ul>
+<p>It reads Jira with your permissions, changes nothing and stores no issue data. It runs entirely on Atlassian and is free for up to 10 users.</p>
+
+<h2>Which one should you use?</h2>
+<ul>
+  <li><strong>A quick look at one epic:</strong> the built-in bar.</li>
+  <li><strong>A field to filter and report on, and you're fine maintaining rules:</strong> the automation field.</li>
+  <li><strong>Progress by story points and time, with sub-tasks, across all epics, always up to date:</strong> an app.</li>
+</ul>
+
+</article>
+
+<section class="cta-band">
+  <h2>Epic Progress for Jira</h2>
+  <p>See how far every epic really is: issues, story points and time, rolled up with sub-tasks. Free for up to 10 users, and it runs entirely on Atlassian.</p>
+  <div class="actions"><a class="btn" href="https://marketplace.atlassian.com/apps/2453250247">Get it on the Atlassian Marketplace</a><a class="btn ghost" href="/epic-progress/">How it works</a></div>
+</section>
+
+</div></main>
+<footer><div class="wrap">
+  <div class="foot-grid">
+    <div><strong>Loopwise Labs</strong><p>Small, reliable apps for Jira and Confluence Cloud, built on Atlassian Forge.</p></div>
+    <div><strong>Apps</strong><div class="foot-apps"><a href="/recurring-issues/">Recurring Issues</a><a href="/epic-progress/">Epic Progress</a><a href="/issue-templates/">Issue Templates</a><a href="/sprint-capacity/">Sprint Capacity</a><a href="/burndown/">Sprint Burndown &amp; Burnup</a><a href="/cascading-select/">Cascading Select</a><a href="/qa-for-confluence/">Q&amp;A</a><a href="/page-approval/">Page Approval</a></div><a class="foot-all" href="/#apps">All 20 apps →</a></div>
+    <div><strong>Company</strong><a href="/services/">Custom apps</a><a href="/forge-starter-kit/">Forge Starter Kit</a><a href="/blog/">Blog</a><a href="/support/">Support</a><a href="/privacy/">Privacy policy</a><a href="/security/">Security</a><a href="/terms/">End user terms</a><a href="/dpa/">Data processing agreement</a><a href="mailto:support@loopwiselabs.app">support@loopwiselabs.app</a></div>
+  </div>
+  <p class="legal">© 2026 Loopwise Labs · Filip Code, Serbia · MB 65422174 · PIB 111454976</p>
+</div></footer>
+</body>
+</html>

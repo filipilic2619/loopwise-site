@@ -357,4 +357,58 @@ North America
 </ul>
 """,
     },
+    {
+        "slug": "jira-epic-progress-percentage",
+        "app": "epic-progress",
+        "live": True,
+        "title": "Epic progress in Jira Cloud: % complete by story points, not just issue count",
+        "date": "November 2026", "iso": "2026-11-28", "minutes": 5,
+        "desc": "How to see how far an epic really is in Jira Cloud: the built-in progress bar, an automation % field, and rolling up story points and time with sub-tasks.",
+        "body": """
+<p class="lead">"How done is this epic?" sounds like a simple question. Jira's built-in progress bar answers it by counting child issues, so an epic with nine tiny tasks done and one huge story left looks 90% finished. Here are your options in Jira Cloud, from free to fully rolled up.</p>
+
+<h2>Option 1: The built-in progress bar</h2>
+<p>Open an epic, or look at it on the project <strong>Timeline</strong>, and you see a bar split into done, in progress and to do.</p>
+<p><strong>Good for:</strong> a quick visual check.</p>
+<p><strong>Watch out for:</strong></p>
+<ul>
+  <li>It counts <strong>issues</strong>, not story points or hours, so big and small items weigh the same.</li>
+  <li>It is calculated when you look at it, not stored in a field, so you can't filter, sort or report on it.</li>
+  <li>Sub-task effort is not part of the picture.</li>
+</ul>
+
+<h2>Option 2: A "% complete" field filled by Jira Automation</h2>
+<p>Create a number field such as <em>Epic % complete</em> and a rule that recalculates it:</p>
+<ol>
+  <li><strong>Trigger:</strong> a child issue is transitioned (or a scheduled trigger once a day).</li>
+  <li><strong>Branch:</strong> to the parent epic.</li>
+  <li><strong>Action:</strong> <em>Lookup work items</em> with JQL <code>parent = {{issue.key}}</code>.</li>
+  <li><strong>Edit work item:</strong> set the field to the share of children whose status category is Done. Use story points instead of a count if you want effort, not items. Guard against epics without children so you don't divide by zero.</li>
+</ol>
+<p><strong>Good for:</strong> having a real field you can show on boards, filters and dashboards.</p>
+<p><strong>Watch out for:</strong></p>
+<ul>
+  <li>The value is only as fresh as the last rule run. Bulk edits, moved issues or a paused rule leave old numbers behind.</li>
+  <li>Each run counts toward your automation limit.</li>
+  <li>Smart-value formulas for points and time get long, and sub-tasks need another branch.</li>
+</ul>
+
+<h2>Option 3: An epic progress app</h2>
+<p>An app can roll everything up when you open the epic, so the numbers are always current. <a href="/epic-progress/">Epic Progress for Jira</a> is ours:</p>
+<ul>
+  <li><strong>Story points and issue count:</strong> % done by points and by number of issues, side by side.</li>
+  <li><strong>Time:</strong> time logged and remaining, <strong>including sub-tasks</strong> of every child.</li>
+  <li><strong>Warnings:</strong> open issues that are overdue, unassigned or not estimated are flagged.</li>
+  <li><strong>All epics of a project on one page:</strong> sort by least progress or most work left, with or without finished epics.</li>
+</ul>
+<p>It reads Jira with your permissions, changes nothing and stores no issue data. It runs entirely on Atlassian and is free for up to 10 users.</p>
+
+<h2>Which one should you use?</h2>
+<ul>
+  <li><strong>A quick look at one epic:</strong> the built-in bar.</li>
+  <li><strong>A field to filter and report on, and you're fine maintaining rules:</strong> the automation field.</li>
+  <li><strong>Progress by story points and time, with sub-tasks, across all epics, always up to date:</strong> an app.</li>
+</ul>
+""",
+    },
 ]
